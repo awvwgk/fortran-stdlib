@@ -4,9 +4,97 @@ on: [push, pull_request]
 
 env:
   CTEST_TIME_TIMEOUT: "5"  # some failures hang forever
-  CMAKE_GENERATOR: Ninja
 
 jobs:
+  gcc-build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - gcc_v: 11
+            tag: 11.2.0-12.0.1-9.0.0-r1
+            zip: winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r1.zip
+          - gcc_v: 10
+            tag: 10.3.0-12.0.0-9.0.0-r2
+            zip: winlibs-x86_64-posix-seh-gcc-10.3.0-mingw-w64-9.0.0-r2.zip
+          - gcc_v: 9
+            tag: 9.4.0-9.0.0-r1
+            zip: winlibs-x86_64-posix-seh-gcc-9.4.0-mingw-w64-9.0.0-r1.zip
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download GCC/MinGW
+      uses: i3h/download-release-asset@v1
+      with:
+        owner: brechtsanders
+        repo: winlibs_mingw
+        tag: ${{ matrix.tag }}
+        file: ${{ matrix.zip }}
+
+    - name: Download Ninja
+      uses: i3h/download-release-asset@v1
+      with:
+        owner: ninja-build
+        repo: ninja
+        tag: v1.10.2
+        file: ninja-win.zip
+
+    - name: Setup GCC
+      run: |
+        unzip ninja-win.zip
+        unzip ${{ matrix.zip }}
+        mv -v ninja.exe mingw64/bin
+        echo "$PWD/mingw64/bin" >> $GITHUB_PATH
+        echo "$PWD/mingw64/bin"
+
+    - name: Check programs
+      run: |
+        echo $PATH
+        ninja --version
+        gcc --version
+        gfortran --version
+        cmake --version
+
+    - name: Install fypp
+      run: pip install fypp
+
+    - run: >-
+        cmake
+        -Wdev
+        -B build
+        -DCMAKE_BUILD_TYPE=Debug
+        -DCMAKE_Fortran_FLAGS_DEBUG="-Wall -Wextra -Wimplicit-interface -fPIC -g -fcheck=all -fbacktrace"
+        -DCMAKE_MAXIMUM_RANK:String=4
+        -DCMAKE_INSTALL_PREFIX=$PWD/_dist
+      env:
+        FC: gfortran
+        CC: gcc
+        CXX: g++
+
+    - name: CMake build
+      run: cmake --build build --parallel
+
+    - name: catch build fail
+      run: cmake --build build --verbose --parallel 1
+      if: failure()
+
+    - name: CTest
+      run: ctest --test-dir build --output-on-failure --parallel -V -LE quadruple_precision
+
+    - uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: WindowsCMakeTestlog
+        path: build/Testing/Temporary/LastTest.log
+
+    - name: Install project
+      run: cmake --install build
+
+
   msys2-build:
     runs-on: windows-latest
     strategy:
@@ -69,6 +157,7 @@ jobs:
         FC: gfortran
         CC: gcc
         CXX: g++
+        CMAKE_GENERATOR: Ninja
 
     - name: CMake build
       run: cmake --build build --parallel
