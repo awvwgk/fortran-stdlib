@@ -1,143 +1,223 @@
-program test_mean
-use stdlib_error, only: check
-use stdlib_kinds, only: sp, dp, int32, int64
-use stdlib_io, only: loadtxt
-use stdlib_stats, only: mean
-use,intrinsic :: ieee_arithmetic, only : ieee_is_nan
-implicit none
+module test_stats_mean
+    use stdlib_test, only : new_unittest, unittest_type, error_type, check
+    use stdlib_stats, only: mean
+    use stdlib_kinds, only : int8, int16, int32, int64, sp, dp, qp
+    use, intrinsic :: ieee_arithmetic, only : ieee_is_nan
+    implicit none
+    private
 
-real(sp), parameter :: sptol = 1000 * epsilon(1._sp)
-real(dp), parameter :: dptol = 2000 * epsilon(1._dp)
+    public :: collect_stats_mean
 
-real(sp) :: s1(3) = [1.0_sp, 2.0_sp, 3.0_sp]
+    real(sp), parameter :: sptol = 1000 * epsilon(1._sp)
+    real(dp), parameter :: dptol = 2000 * epsilon(1._dp)
+    real(qp), parameter :: qptol = 2000 * epsilon(1._qp)
 
-real(sp), allocatable :: s(:, :)
-real(dp), allocatable :: d(:, :)
+    integer(int8), parameter :: d1(16) = [10, 2, -3, 4, 6, -6, 7, -8, 9, 0, 1, 20, -9, 10, 14, 15]
+    integer(int8), parameter :: d2(4, 4) = reshape(d1, [4, 4])
+    integer(int8), parameter :: d3(2, 4, 2) = reshape(d1, [2, 4, 2])
+    integer(int8), parameter :: d4(2, 2, 2, 2) = reshape(d1, [2, 2, 2, 2])
 
-complex(dp), allocatable :: cs(:, :)
-complex(dp), allocatable :: cd(:, :)
+contains
 
-real(dp), allocatable :: d3(:, :, :)
-real(dp), allocatable :: d4(:, :, :, :)
+    !> Collect all exported unit tests
+    subroutine collect_stats_mean(testsuite)
+        !> Collection of tests
+        type(unittest_type), allocatable, intent(out) :: testsuite(:)
 
-complex(dp), allocatable :: cd3(:, :, :)
+        testsuite = [ &
+            new_unittest("test_stats_mean_all_int8", test_stats_mean_all_int8) &
+            , new_unittest("test_stats_mean_all_optmask_int8", test_stats_mean_all_optmask_int8) &
+            , new_unittest("test_stats_mean_int8", test_stats_mean_int8) &
+            , new_unittest("test_stats_mean_optmask_int8", test_stats_mean_optmask_int8) &
+            , new_unittest("test_stats_mean_mask_all_int8", test_stats_mean_mask_all_int8) &
+            , new_unittest("test_stats_mean_mask_int8", test_stats_mean_mask_int8) &
+            ]
+    end subroutine collect_stats_mean
 
-!sp
-call loadtxt("array3.dat", s)
+    subroutine test_stats_mean_all_int8(error)
+        !> Error handling
+        type(error_type), allocatable, intent(out) :: error
 
-call check( abs(mean(s) - sum(s)/real(size(s), sp)) < sptol)
-call check( sum( abs( mean(s,1) - sum(s,1)/real(size(s,1), sp) )) < sptol)
-call check( sum( abs( mean(s,2) - sum(s,2)/real(size(s,2), sp) )) < sptol)
+        call check(error, mean(d1), sum(d1)/real(size(d1), dp)&
+                    , 'mean(d1): uncorrect answer'&
+                    , thr = dptol)
+        if (allocated(error)) return
 
-! check reduction of rank one array to scalar
-call check(abs(mean(s1) - sum(s1) / real(size(s1), sp)) < sptol)
-call check(abs(mean(s1, dim=1) - sum(s1, dim=1) / real(size(s1, dim=1), sp)) < sptol)
+        call check(error, mean(d2), sum(d2)/real(size(d2), dp)&
+                    , 'mean(d2): uncorrect answer'&
+                    , thr = dptol)
+        if (allocated(error)) return
 
+        call check(error, mean(d3), sum(d3)/real(size(d3), dp)&
+                    , 'mean(d3): uncorrect answer'&
+                    , thr = dptol)
+        if (allocated(error)) return
 
-!dp
-call loadtxt("array3.dat", d)
+        call check(error, mean(d4), sum(d4)/real(size(d4), dp)&
+                    , 'mean(d4): uncorrect answer'&
+                    , thr = dptol)
+        if (allocated(error)) return
 
-call check( abs(mean(d) - sum(d)/real(size(d), dp)) < dptol)
-call check( sum( abs( mean(d,1) - sum(d,1)/real(size(d,1), dp) )) < dptol)
-call check( sum( abs( mean(d,2) - sum(d,2)/real(size(d,2), dp) )) < dptol)
+    end subroutine
 
-!csp
+    subroutine test_stats_mean_all_optmask_int8(error)
+        !> Error handling
+        type(error_type), allocatable, intent(out) :: error
 
-call loadtxt("array3.dat", d)
-cs = cmplx(1._sp, 1._sp,kind=sp)*d
+        call check(error, ieee_is_nan(mean(d1, .false.))&
+                    , 'mean(d1, .false.): uncorrect answer')
+        if (allocated(error)) return
 
-call check( abs(mean(cs) - sum(cs)/real(size(cs), sp)) < sptol)
-call check( sum( abs( mean(cs,1) - sum(cs,1)/real(size(cs,1), sp) )) < sptol)
-call check( sum( abs( mean(cs,2) - sum(cs,2)/real(size(cs,2), sp) )) < sptol)
+        call check(error, ieee_is_nan(mean(d2, .false.))&
+                    , 'mean(d2, .false.): uncorrect answer')
+        if (allocated(error)) return
 
-!cdp
+        call check(error, ieee_is_nan(mean(d3, .false.))&
+                    , 'mean(d3, .false.): uncorrect answer')
+        if (allocated(error)) return
 
-call loadtxt("array3.dat", d)
-cd = cmplx(1._dp, 1._dp,kind=dp)*d
+        call check(error, ieee_is_nan(mean(d4, .false.))&
+                    , 'mean(d4, .false.): uncorrect answer')
+        if (allocated(error)) return
 
-call check( abs(mean(cd) - sum(cd)/real(size(cd), dp)) < dptol)
-call check( sum( abs( mean(cd,1) - sum(cd,1)/real(size(cd,1), dp) )) < dptol)
-call check( sum( abs( mean(cd,2) - sum(cd,2)/real(size(cd,2), dp) )) < dptol)
+    end subroutine
 
-! check mask = .false.
+    subroutine test_stats_mean_int8(error)
+        !> Error handling
+        type(error_type), allocatable, intent(out) :: error
 
-call check( ieee_is_nan(mean(d, .false.)))
-call check( any(ieee_is_nan(mean(d, 1, .false.))))
-call check( any(ieee_is_nan(mean(d, 2, .false.))))
+        call check(error&
+                    , abs(mean(d1, 1) - sum(d1, 1)/real(size(d1, 1), dp)) <dptol&
+                    , 'mean(d1, 1): uncorrect answer'&
+                    )
+        if (allocated(error)) return
 
-! check mask of the same shape as input
-call check( abs(mean(d, d > 0) - sum(d, d > 0)/real(count(d > 0), dp)) < dptol)
-call check( sum(abs(mean(d, 1, d > 0) - sum(d, 1, d > 0)/real(count(d > 0, 1), dp))) < dptol)
-call check( sum(abs(mean(d, 2, d > 0) - sum(d, 2, d > 0)/real(count(d > 0, 2), dp))) < dptol)
+        call check(error&
+                    , sum(abs(mean(d2, 1) - sum(d2, 1)/real(size(d2, 1), dp))) < dptol&
+                    , 'mean(d2, 1): uncorrect answer'&
+                    )
+        if (allocated(error)) return
 
-!int32
-call loadtxt("array3.dat", d)
+        call check(error&
+                    , sum(abs(mean(d3, 1) - sum(d3, 1)/real(size(d3, 1), dp))) < dptol&
+                    , 'mean(d3, 1): uncorrect answer'&
+                    )
+        if (allocated(error)) return
 
-call check( abs(mean(int(d, int32)) - sum(real(int(d, int32),dp))/real(size(d), dp)) < dptol)
-call check( sum(abs( mean(int(d, int32),1) - sum(real(int(d, int32),dp),1)/real(size(d,1), dp) )) < dptol)
-call check( sum(abs( mean(int(d, int32),2) - sum(real(int(d, int32),dp),2)/real(size(d,2), dp) )) < dptol)
+        call check(error&
+                    , sum(abs(mean(d4, 1) - sum(d4, 1)/real(size(d4, 1), dp))) < dptol&
+                    , 'mean(d4, 1): uncorrect answer'&
+                    )
+        if (allocated(error)) return
 
+    end subroutine
 
-!int64
-call loadtxt("array3.dat", d)
+    subroutine test_stats_mean_optmask_int8(error)
+        !> Error handling
+        type(error_type), allocatable, intent(out) :: error
 
-call check( abs(mean(int(d, int64)) - sum(real(int(d, int64),dp))/real(size(d), dp)) < dptol)
-call check( sum(abs( mean(int(d, int64),1) - sum(real(int(d, int64),dp),1)/real(size(d,1), dp) )) < dptol)
-call check( sum(abs( mean(int(d, int64),2) - sum(real(int(d, int64),dp),2)/real(size(d,2), dp) )) < dptol)
+        call check(error, ieee_is_nan(mean(d1, 1, .false.))&
+                    , 'mean(d1, 1, .false.): uncorrect answer'&
+                    )
+        if (allocated(error)) return
 
+        call check(error, any(ieee_is_nan(mean(d2, 1, .false.)))&
+                    , 'mean(d2, 1, .false.): uncorrect answer')
+        if (allocated(error)) return
 
-!dp rank 3
-allocate(d3(size(d,1),size(d,2),3))
-d3(:,:,1)=d;
-d3(:,:,2)=d*1.5;
-d3(:,:,3)=d*4;
+        call check(error, any(ieee_is_nan(mean(d3, 1, .false.)))&
+                    , 'mean(d3, 1, .false.): uncorrect answer')
+        if (allocated(error)) return
 
-call check( abs(mean(d3) - sum(d3)/real(size(d3), dp)) < dptol)
-call check( sum( abs( mean(d3,1) - sum(d3,1)/real(size(d3,1), dp) )) < dptol)
-call check( sum( abs( mean(d3,2) - sum(d3,2)/real(size(d3,2), dp) )) < dptol)
-call check( sum( abs( mean(d3,3) - sum(d3,3)/real(size(d3,3), dp) )) < dptol)
+        call check(error, any(ieee_is_nan(mean(d4, 1, .false.)))&
+                    , 'mean(d4, 1, .false.): uncorrect answer')
+        if (allocated(error)) return
 
-!cdp rank 3
-allocate(cd3(size(d,1),size(d,2),3))
-cd3(:,:,1)=d;
-cd3(:,:,2)=d*1.5;
-cd3(:,:,3)=d*4;
-cd3 = cmplx(1._sp, 1._sp,kind=sp)*cd3
+    end subroutine
 
-call check( abs(mean(cd3) - sum(cd3)/real(size(cd3), dp)) < dptol)
-call check( sum( abs( mean(cd3,1) - sum(cd3,1)/real(size(cd3,1), dp) )) < dptol)
-call check( sum( abs( mean(cd3,2) - sum(cd3,2)/real(size(cd3,2), dp) )) < dptol)
-call check( sum( abs( mean(cd3,3) - sum(cd3,3)/real(size(cd3,3), dp) )) < dptol)
+    subroutine test_stats_mean_mask_all_int8(error)
+        !> Error handling
+        type(error_type), allocatable, intent(out) :: error
 
+        call check(error, mean(d1, d1 > 0)&
+                    , sum(d1, d1 > 0)/real(count(d1 > 0), dp)&
+                    , 'mean(d1, d1 > 0): uncorrect answer'&
+                    , thr = dptol)
+        if (allocated(error)) return
 
-!dp rank 4
-allocate(d4(size(d,1),size(d,2),3,9))
-d4 = -1
-d4(:,:,1,1)=d;
-d4(:,:,2,1)=d*1.5;
-d4(:,:,3,1)=d*4;
-d4(:,:,3,9)=d*4;
+        call check(error, mean(d2, d2 > 0)&
+                    , sum(d2, d2 > 0)/real(count(d2 > 0), dp)&
+                    , 'mean(d2, d2 > 0): uncorrect answer'&
+                    , thr = dptol)
+        if (allocated(error)) return
 
-call check( abs(mean(d4) - sum(d4)/real(size(d4), dp)) < dptol)
-call check( sum( abs( mean(d4,1) - sum(d4,1)/real(size(d4,1), dp) )) < dptol)
-call check( sum( abs( mean(d4,2) - sum(d4,2)/real(size(d4,2), dp) )) < dptol)
-call check( sum( abs( mean(d4,3) - sum(d4,3)/real(size(d4,3), dp) )) < dptol)
-call check( sum( abs( mean(d4,4) - sum(d4,4)/real(size(d4,4), dp) )) < dptol)
+        call check(error, mean(d3, d3 > 0)&
+                    , sum(d3, d3 > 0)/real(count(d3 > 0), dp)&
+                    , 'mean(d3, d3 > 0): uncorrect answer'&
+                    , thr = dptol)
+        if (allocated(error)) return
 
-! check mask = .false.
+        call check(error, mean(d4, d4 > 0)&
+                    , sum(d4, d4 > 0)/real(count(d3 > 0), dp)&
+                    , 'mean(d4, d4 > 0): uncorrect answer'&
+                    , thr = dptol)
+        if (allocated(error)) return
+    end subroutine
 
-call check( ieee_is_nan(mean(d4, .false.)))
-call check( any(ieee_is_nan(mean(d4, 1, .false.))))
-call check( any(ieee_is_nan(mean(d4, 2, .false.))))
-call check( any(ieee_is_nan(mean(d4, 3, .false.))))
-call check( any(ieee_is_nan(mean(d4, 4, .false.))))
+    subroutine test_stats_mean_mask_int8(error)
+        !> Error handling
+        type(error_type), allocatable, intent(out) :: error
 
+        call check(error&
+                    , abs(mean(d1, 1, d1 > 0) - sum(d1, 1, d1 > 0)/real(count(d1 > 0, 1), dp)) < dptol&
+                    , 'mean(d1, 1, d1 > 0): uncorrect answer'&
+                    )
+        if (allocated(error)) return
 
-! check mask of the same shape as input
-call check( abs(mean(d4, d4 > 0) - sum(d4, d4 > 0)/real(count(d4 > 0), dp)) < dptol)
-call check( any(ieee_is_nan(mean(d4, 1, d4 > 0))) )
-call check( any(ieee_is_nan(mean(d4, 2, d4 > 0))) )
-call check( any(ieee_is_nan(mean(d4, 3, d4 > 0))) )
-call check( sum(abs(mean(d4, 4, d4 > 0) - sum(d4, 4, d4 > 0)/real(count(d4 > 0, 4), dp))) < dptol)
+        call check(error&
+                    , sum(abs(mean(d2, 1, d2 > 0) - sum(d2, 1, d2 > 0)/real(count(d2 > 0, 1), dp))) < dptol&
+                    , 'mean(d2, 1, d2 > 0): uncorrect answer'&
+                    )
+        if (allocated(error)) return
 
+        call check(error&
+                    , sum(abs(mean(d3, 1, d3 > 0) - sum(d3, 1, d3 > 0)/real(count(d3 > 0, 1), dp))) < dptol&
+                    , 'mean(d3, 1, d3 > 0): uncorrect answer'&
+                    )
+        if (allocated(error)) return
+
+        call check(error&
+                    , sum(abs(mean(d4, 1, d4 > 0) - sum(d4, 1, d4 > 0)/real(count(d4 > 0, 1), dp))) < dptol&
+                    , 'mean(d4, 1, d4 > 0): uncorrect answer'&
+                    )
+        if (allocated(error)) return
+
+    end subroutine
+
+end module test_stats_mean
+
+program tester
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    use stdlib_test, only : run_testsuite, new_testsuite, testsuite_type
+    use test_stats_mean, only : collect_stats_mean
+    implicit none
+    integer :: stat, is
+    type(testsuite_type), allocatable :: testsuites(:)
+    character(len=*), parameter :: fmt = '("#", *(1x, a))'
+
+    stat = 0
+
+    testsuites = [ &
+        new_testsuite("stats_mean", collect_stats_mean) &
+        ]
+
+    do is = 1, size(testsuites)
+        write(error_unit, fmt) "Testing:", testsuites(is)%name
+        call run_testsuite(testsuites(is)%collect, error_unit, stat)
+    end do
+
+    if (stat > 0) then
+        write(error_unit, '(i0, 1x, a)') stat, "test(s) failed!"
+        error stop
+    end if
 end program
