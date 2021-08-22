@@ -2,6 +2,7 @@
 
 # Create a list of the files to be preprocessed
 set(fppFiles
+    test_mean.fypp
     test_median.fypp
 )
 
@@ -19,6 +20,7 @@ fypp_f90("${fyppFlags}" "${fppFiles}" outFiles)
 ADDTEST(corr)
 ADDTEST(cov)
 ADDTEST(mean)
+ADDTEST(mean_old)
 ADDTEST(median)
 ADDTEST(moment)
 ADDTEST(rawmoment)
