@@ -197,7 +197,7 @@ contains
         if (allocated(error)) return
 
         call check(error, mean(d4_${k1}$, d4_${k1}$ > 0)&
-                    , sum(real(d4_${k1}$, dp), d4_${k1}$ > 0)/real(count(d3_${k1}$ > 0), dp)&
+                    , sum(real(d4_${k1}$, dp), d4_${k1}$ > 0)/real(count(d4_${k1}$ > 0), dp)&
                     , 'mean(d4_${k1}$, d4_${k1}$ > 0): uncorrect answer'&
                     , thr = dptol)
         if (allocated(error)) return
@@ -384,7 +384,7 @@ contains
         if (allocated(error)) return
 
         call check(error, mean(d4_${k1}$, d4_${k1}$ > 0)&
-                    , sum(d4_${k1}$, d4_${k1}$ > 0)/real(count(d3_${k1}$ > 0), ${k1}$)&
+                    , sum(d4_${k1}$, d4_${k1}$ > 0)/real(count(d4_${k1}$ > 0), ${k1}$)&
                     , 'mean(d4_${k1}$, d4_${k1}$ > 0): uncorrect answer'&
                     , thr = ${k1}$tol)
         if (allocated(error)) return
@@ -436,25 +436,25 @@ contains
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
 
-!        call check(error, mean(d1_${k1}$), sum(d1_${k1}$)/real(size(d1_${k1}$), ${k1}$)&
-!                    , 'mean(d1_${k1}$): uncorrect answer'&
-!                    , thr = ${k1}$tol)
-!        if (allocated(error)) return
-!
-!        call check(error, mean(d2_${k1}$), sum(d2_${k1}$)/real(size(d2_${k1}$), ${k1}$)&
-!                    , 'mean(d2_${k1}$): uncorrect answer'&
-!                    , thr = ${k1}$tol)
-!        if (allocated(error)) return
-!
-!        call check(error, mean(d3_${k1}$), sum(d3_${k1}$)/real(size(d3_${k1}$), ${k1}$)&
-!                    , 'mean(d3_${k1}$): uncorrect answer'&
-!                    , thr = ${k1}$tol)
-!        if (allocated(error)) return
-!
-!        call check(error, mean(d4_${k1}$), sum(d4_${k1}$)/real(size(d4_${k1}$), ${k1}$)&
-!                    , 'mean(d4_${k1}$): uncorrect answer'&
-!                    , thr = ${k1}$tol)
-!        if (allocated(error)) return
+        call check(error, mean(d1_c${k1}$), sum(d1_c${k1}$)/real(size(d1_c${k1}$), ${k1}$)&
+                    , 'mean(d1_c${k1}$): uncorrect answer'&
+                    , thr = ${k1}$tol)
+        if (allocated(error)) return
+
+        call check(error, mean(d2_c${k1}$), sum(d2_c${k1}$)/real(size(d2_c${k1}$), ${k1}$)&
+                    , 'mean(d2_c${k1}$): uncorrect answer'&
+                    , thr = ${k1}$tol)
+        if (allocated(error)) return
+
+        call check(error, mean(d3_c${k1}$), sum(d3_c${k1}$)/real(size(d3_c${k1}$), ${k1}$)&
+                    , 'mean(d3_c${k1}$): uncorrect answer'&
+                    , thr = ${k1}$tol)
+        if (allocated(error)) return
+
+        call check(error, mean(d4_c${k1}$), sum(d4_c${k1}$)/real(size(d4_c${k1}$), ${k1}$)&
+                    , 'mean(d4_c${k1}$): uncorrect answer'&
+                    , thr = ${k1}$tol)
+        if (allocated(error)) return
 
     end subroutine
 
@@ -462,21 +462,21 @@ contains
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
 
-!        call check(error, ieee_is_nan(mean(d1_c${k1}$, .false.))&
-!                    , 'mean(d1_c${k1}$, .false.): uncorrect answer')
-!        if (allocated(error)) return
-!
-!        call check(error, ieee_is_nan(mean(d2_c${k1}$, .false.))&
-!                    , 'mean(d2_c${k1}$, .false.): uncorrect answer')
-!        if (allocated(error)) return
-!
-!        call check(error, ieee_is_nan(mean(d3_c${k1}$, .false.))&
-!                    , 'mean(d3_c${k1}$, .false.): uncorrect answer')
-!        if (allocated(error)) return
-!
-!        call check(error, ieee_is_nan(mean(d4_c${k1}$, .false.))&
-!                    , 'mean(d4_c${k1}$, .false.): uncorrect answer')
-!        if (allocated(error)) return
+        call check(error, ieee_is_nan(real(mean(d1_c${k1}$, .false.)))&
+                    , 'mean(d1_c${k1}$, .false.): uncorrect answer')
+        if (allocated(error)) return
+
+        call check(error, ieee_is_nan(real(mean(d2_c${k1}$, .false.)))&
+                    , 'mean(d2_c${k1}$, .false.): uncorrect answer')
+        if (allocated(error)) return
+
+        call check(error, ieee_is_nan(real(mean(d3_c${k1}$, .false.)))&
+                    , 'mean(d3_c${k1}$, .false.): uncorrect answer')
+        if (allocated(error)) return
+
+        call check(error, ieee_is_nan(real(mean(d4_c${k1}$, .false.)))&
+                    , 'mean(d4_c${k1}$, .false.): uncorrect answer')
+        if (allocated(error)) return
 
     end subroutine
 
@@ -484,38 +484,38 @@ contains
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
 
-!        call check(error&
-!                    , abs(mean(d1_${k1}$, 1) - sum(d1_${k1}$, 1)/real(size(d1_${k1}$, 1), ${k1}$)) <${k1}$tol&
-!                    , 'mean(d1_${k1}$, 1): uncorrect answer'&
-!                    )
-!        if (allocated(error)) return
-!
-!        #:for dim in range(1, 3)
-!        call check(error&
-!                    , sum(abs(mean(d2_${k1}$, ${dim}$) -&
-!                    sum(d2_${k1}$, ${dim}$)/real(size(d2_${k1}$, ${dim}$), ${k1}$))) < ${k1}$tol&
-!                    , 'mean(d2_${k1}$, ${dim}$): uncorrect answer'&
-!                    )
-!        if (allocated(error)) return
-!        #:endfor
-!
-!        #:for dim in range(1, 4)
-!        call check(error&
-!                    , sum(abs(mean(d3_${k1}$, ${dim}$) -&
-!                    sum(d3_${k1}$, ${dim}$)/real(size(d3_${k1}$, ${dim}$), ${k1}$))) < ${k1}$tol&
-!                    , 'mean(d3_${k1}$, ${dim}$): uncorrect answer'&
-!                    )
-!        if (allocated(error)) return
-!        #:endfor
-!
-!        #:for dim in range(1, 5)
-!        call check(error&
-!                    , sum(abs(mean(d4_${k1}$, ${dim}$) -&
-!                    sum(d4_${k1}$, ${dim}$)/real(size(d4_${k1}$, ${dim}$), ${k1}$))) < ${k1}$tol&
-!                    , 'mean(d4_${k1}$, ${dim}$): uncorrect answer'&
-!                    )
-!        if (allocated(error)) return
-!        #:endfor
+        call check(error&
+                    , abs(mean(d1_c${k1}$, 1) - sum(d1_c${k1}$, 1)/real(size(d1_c${k1}$, 1), ${k1}$)) <${k1}$tol&
+                    , 'mean(d1_c${k1}$, 1): uncorrect answer'&
+                    )
+        if (allocated(error)) return
+
+        #:for dim in range(1, 3)
+        call check(error&
+                    , sum(abs(mean(d2_c${k1}$, ${dim}$) -&
+                    sum(d2_c${k1}$, ${dim}$)/real(size(d2_c${k1}$, ${dim}$), ${k1}$))) < ${k1}$tol&
+                    , 'mean(d2_c${k1}$, ${dim}$): uncorrect answer'&
+                    )
+        if (allocated(error)) return
+        #:endfor
+
+        #:for dim in range(1, 4)
+        call check(error&
+                    , sum(abs(mean(d3_c${k1}$, ${dim}$) -&
+                    sum(d3_c${k1}$, ${dim}$)/real(size(d3_c${k1}$, ${dim}$), ${k1}$))) < ${k1}$tol&
+                    , 'mean(d3_c${k1}$, ${dim}$): uncorrect answer'&
+                    )
+        if (allocated(error)) return
+        #:endfor
+
+        #:for dim in range(1, 5)
+        call check(error&
+                    , sum(abs(mean(d4_c${k1}$, ${dim}$) -&
+                    sum(d4_c${k1}$, ${dim}$)/real(size(d4_c${k1}$, ${dim}$), ${k1}$))) < ${k1}$tol&
+                    , 'mean(d4_c${k1}$, ${dim}$): uncorrect answer'&
+                    )
+        if (allocated(error)) return
+        #:endfor
 
     end subroutine
 
@@ -523,28 +523,28 @@ contains
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
 
-!        call check(error, ieee_is_nan(mean(d1_c${k1}$, 1, .false.))&
-!                    , 'mean(d1_c${k1}$, 1, .false.): uncorrect answer'&
-!                    )
-!        if (allocated(error)) return
-!
-!        #:for dim in range(1, 3)
-!        call check(error, any(ieee_is_nan(mean(d2_c${k1}$, ${dim}$, .false.)))&
-!                    , 'mean(d2_c${k1}$, ${dim}$, .false.): uncorrect answer')
-!        if (allocated(error)) return
-!        #:endfor
-!
-!        #:for dim in range(1, 4)
-!        call check(error, any(ieee_is_nan(mean(d3_c${k1}$, ${dim}$, .false.)))&
-!                    , 'mean(d3_c${k1}$, ${dim}$, .false.): uncorrect answer')
-!        if (allocated(error)) return
-!        #:endfor
-!
-!        #:for dim in range(1, 5)
-!        call check(error, any(ieee_is_nan(mean(d4_c${k1}$, ${dim}$, .false.)))&
-!                    , 'mean(d4_c${k1}$, ${dim}$, .false.): uncorrect answer')
-!        if (allocated(error)) return
-!        #:endfor
+        call check(error, ieee_is_nan(real(mean(d1_c${k1}$, 1, .false.)))&
+                    , 'mean(d1_c${k1}$, 1, .false.): uncorrect answer'&
+                    )
+        if (allocated(error)) return
+
+        #:for dim in range(1, 3)
+        call check(error, any(ieee_is_nan(real(mean(d2_c${k1}$, ${dim}$, .false.))))&
+                    , 'mean(d2_c${k1}$, ${dim}$, .false.): uncorrect answer')
+        if (allocated(error)) return
+        #:endfor
+
+        #:for dim in range(1, 4)
+        call check(error, any(ieee_is_nan(real(mean(d3_c${k1}$, ${dim}$, .false.))))&
+                    , 'mean(d3_c${k1}$, ${dim}$, .false.): uncorrect answer')
+        if (allocated(error)) return
+        #:endfor
+
+        #:for dim in range(1, 5)
+        call check(error, any(ieee_is_nan(real(mean(d4_c${k1}$, ${dim}$, .false.))))&
+                    , 'mean(d4_c${k1}$, ${dim}$, .false.): uncorrect answer')
+        if (allocated(error)) return
+        #:endfor
 
     end subroutine
 
@@ -552,68 +552,68 @@ contains
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
 
-!        call check(error, mean(d1_${k1}$, d1_${k1}$ > 0)&
-!                    , sum(d1_${k1}$, d1_${k1}$ > 0)/real(count(d1_${k1}$ > 0), ${k1}$)&
-!                    , 'mean(d1_${k1}$, d1_${k1}$ > 0): uncorrect answer'&
-!                    , thr = ${k1}$tol)
-!        if (allocated(error)) return
-!
-!        call check(error, mean(d2_${k1}$, d2_${k1}$ > 0)&
-!                    , sum(d2_${k1}$, d2_${k1}$ > 0)/real(count(d2_${k1}$ > 0), ${k1}$)&
-!                    , 'mean(d2_${k1}$, d2_${k1}$ > 0): uncorrect answer'&
-!                    , thr = ${k1}$tol)
-!        if (allocated(error)) return
-!
-!        call check(error, mean(d3_${k1}$, d3_${k1}$ > 0)&
-!                    , sum(d3_${k1}$, d3_${k1}$ > 0)/real(count(d3_${k1}$ > 0), ${k1}$)&
-!                    , 'mean(d3_${k1}$, d3_${k1}$ > 0): uncorrect answer'&
-!                    , thr = ${k1}$tol)
-!        if (allocated(error)) return
-!
-!        call check(error, mean(d4_${k1}$, d4_${k1}$ > 0)&
-!                    , sum(d4_${k1}$, d4_${k1}$ > 0)/real(count(d3_${k1}$ > 0), ${k1}$)&
-!                    , 'mean(d4_${k1}$, d4_${k1}$ > 0): uncorrect answer'&
-!                    , thr = ${k1}$tol)
-!        if (allocated(error)) return
+        call check(error, mean(d1_c${k1}$, d1_c${k1}$%re > 0)&
+                    , sum(d1_c${k1}$, d1_c${k1}$%re > 0)/real(count(d1_c${k1}$%re > 0), ${k1}$)&
+                    , 'mean(d1_c${k1}$, d1_c${k1}$%re > 0): uncorrect answer'&
+                    , thr = ${k1}$tol)
+        if (allocated(error)) return
+
+        call check(error, mean(d2_c${k1}$, d2_c${k1}$%re > 0)&
+                    , sum(d2_c${k1}$, d2_c${k1}$%re > 0)/real(count(d2_c${k1}$%re > 0), ${k1}$)&
+                    , 'mean(d2_c${k1}$, d2_c${k1}$%re > 0): uncorrect answer'&
+                    , thr = ${k1}$tol)
+        if (allocated(error)) return
+
+        call check(error, mean(d3_c${k1}$, d3_c${k1}$%re > 0)&
+                    , sum(d3_c${k1}$, d3_c${k1}$%re > 0)/real(count(d3_c${k1}$%re > 0), ${k1}$)&
+                    , 'mean(d3_c${k1}$, d3_c${k1}$%re > 0): uncorrect answer'&
+                    , thr = ${k1}$tol)
+        if (allocated(error)) return
+
+        call check(error, mean(d4_c${k1}$, d4_c${k1}$%re > 0)&
+                    , sum(d4_c${k1}$, d4_c${k1}$%re > 0)/real(count(d4_c${k1}$%re > 0), ${k1}$)&
+                    , 'mean(d4_c${k1}$, d4_c${k1}$%re > 0): uncorrect answer'&
+                    , thr = ${k1}$tol)
+        if (allocated(error)) return
     end subroutine
 
     subroutine test_stats_mean_mask_c${k1}$(error)
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
 
-!        call check(error&
-!                    , abs(mean(d1_${k1}$, 1, d1_${k1}$ > 0) -&
-!                    sum(d1_${k1}$, 1, d1_${k1}$ > 0)/real(count(d1_${k1}$ > 0, 1), ${k1}$)) < ${k1}$tol&
-!                    , 'mean(d1_${k1}$, 1, d1_${k1}$ > 0): uncorrect answer'&
-!                    )
-!        if (allocated(error)) return
-!
-!        #:for dim in range(1, 3)
-!        call check(error&
-!                    , sum(abs(mean(d2_${k1}$, ${dim}$, d2_${k1}$ > 0) -&
-!                    sum(d2_${k1}$, ${dim}$, d2_${k1}$ > 0)/real(count(d2_${k1}$ > 0, ${dim}$), ${k1}$))) < ${k1}$tol&
-!                    , 'mean(d2_${k1}$, ${dim}$, d2_${k1}$ > 0): uncorrect answer'&
-!                    )
-!        if (allocated(error)) return
-!        #:endfor
-!
-!        #:for dim in range(1, 4)
-!        call check(error&
-!                    , sum(abs(mean(d3_${k1}$, ${dim}$, d3_${k1}$ > 0) -&
-!                    sum(d3_${k1}$, ${dim}$, d3_${k1}$ > 0)/real(count(d3_${k1}$ > 0, ${dim}$), ${k1}$))) < ${k1}$tol&
-!                    , 'mean(d3_${k1}$, ${dim}$, d3_${k1}$ > 0): uncorrect answer'&
-!                    )
-!        if (allocated(error)) return
-!        #:endfor
-!
-!        #:for dim in range(1, 3)
-!        call check(error&
-!                    , sum(abs(mean(d4_${k1}$, ${dim}$, d4_${k1}$ > 0) -&
-!                    sum(d4_${k1}$, ${dim}$, d4_${k1}$ > 0)/real(count(d4_${k1}$ > 0, ${dim}$), ${k1}$))) < ${k1}$tol&
-!                    , 'mean(d4_${k1}$, ${dim}$, d4_${k1}$ > 0): uncorrect answer'&
-!                    )
-!        if (allocated(error)) return
-!        #:endfor
+        call check(error&
+                    , abs(mean(d1_c${k1}$, 1, d1_c${k1}$%re > 0) -&
+                    sum(d1_c${k1}$, 1, d1_c${k1}$%re > 0)/real(count(d1_c${k1}$%re > 0, 1), ${k1}$)) < ${k1}$tol&
+                    , 'mean(d1_c${k1}$, 1, d1_c${k1}$%re > 0): uncorrect answer'&
+                    )
+        if (allocated(error)) return
+
+        #:for dim in range(1, 3)
+        call check(error&
+                    , sum(abs(mean(d2_c${k1}$, ${dim}$, d2_c${k1}$%re > 0) -&
+                    sum(d2_c${k1}$, ${dim}$, d2_c${k1}$%re > 0)/real(count(d2_c${k1}$%re > 0, ${dim}$), ${k1}$))) < ${k1}$tol&
+                    , 'mean(d2_c${k1}$, ${dim}$, d2_c${k1}$%re > 0): uncorrect answer'&
+                    )
+        if (allocated(error)) return
+        #:endfor
+
+        #:for dim in range(1, 4)
+        call check(error&
+                    , sum(abs(mean(d3_c${k1}$, ${dim}$, d3_c${k1}$%re > 0) -&
+                    sum(d3_c${k1}$, ${dim}$, d3_c${k1}$%re > 0)/real(count(d3_c${k1}$%re > 0, ${dim}$), ${k1}$))) < ${k1}$tol&
+                    , 'mean(d3_c${k1}$, ${dim}$, d3_c${k1}$%re > 0): uncorrect answer'&
+                    )
+        if (allocated(error)) return
+        #:endfor
+
+        #:for dim in range(1, 3)
+        call check(error&
+                    , sum(abs(mean(d4_c${k1}$, ${dim}$, d4_c${k1}$%re > 0) -&
+                    sum(d4_c${k1}$, ${dim}$, d4_c${k1}$%re > 0)/real(count(d4_c${k1}$%re > 0, ${dim}$), ${k1}$))) < ${k1}$tol&
+                    , 'mean(d4_c${k1}$, ${dim}$, d4_c${k1}$%re > 0): uncorrect answer'&
+                    )
+        if (allocated(error)) return
+        #:endfor
 
     end subroutine
     #:endfor
