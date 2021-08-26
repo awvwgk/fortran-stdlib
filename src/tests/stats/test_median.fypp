@@ -37,13 +37,16 @@ contains
         testsuite = [ &
             new_unittest("test_stats_median_size_int8", test_stats_median_size_int8) &
             #:for k1,t1 in IR_KINDS_TYPES
-             , new_unittest("test_stats_median_size_${k1}$", test_stats_median_size_${k1}$) &
-!            ,new_unittest("test_stats_median_all_${k1}$", test_stats_median_all_${k1}$) &
-!            , new_unittest("test_stats_median_all_optmask_${k1}$", test_stats_median_all_optmask_${k1}$) &
-!            , new_unittest("test_stats_median_${k1}$", test_stats_median_${k1}$) &
-!            , new_unittest("test_stats_median_optmask_${k1}$", test_stats_median_optmask_${k1}$) &
-!            , new_unittest("test_stats_median_mask_all_${k1}$", test_stats_median_mask_all_${k1}$) &
-!            , new_unittest("test_stats_median_mask_${k1}$", test_stats_median_mask_${k1}$) &
+            , new_unittest("test_stats_median_size_${k1}$", test_stats_median_size_${k1}$) &
+            , new_unittest("test_stats_median_odd_size_${k1}$", test_stats_median_odd_size_${k1}$) &
+            , new_unittest("test_stats_median_all_${k1}$", test_stats_median_all_${k1}$) &
+            , new_unittest("test_stats_median_all_odd_${k1}$", test_stats_median_all_odd_${k1}$) &
+            , new_unittest("test_stats_median_all_optmask_${k1}$", test_stats_median_all_optmask_${k1}$) &
+            , new_unittest("test_stats_median_${k1}$", test_stats_median_${k1}$) &
+            , new_unittest("test_stats_median_odd_${k1}$", test_stats_median_odd_${k1}$) &
+            , new_unittest("test_stats_median_optmask_${k1}$", test_stats_median_optmask_${k1}$) &
+            , new_unittest("test_stats_median_mask_all_${k1}$", test_stats_median_mask_all_${k1}$) &
+            , new_unittest("test_stats_median_mask_${k1}$", test_stats_median_mask_${k1}$) &
             #:endfor
             ]
     end subroutine collect_stats_median
