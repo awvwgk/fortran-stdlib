@@ -1,4 +1,4 @@
-module stdlib_stats_distribution_PRNG
+module stdlib_random
     use stdlib_kinds, only: int8, int16, int32, int64
     use stdlib_optval, only: optval
     use stdlib_error, only: error_stop
@@ -17,7 +17,7 @@ module stdlib_stats_distribution_PRNG
     !! Version experimental
     !!
     !! Generation of random integers with different kinds
-    !! ([Specification](../page/specs/stdlib_stats_distribution_PRNG.html#
+    !! ([Specification](../page/specs/stdlib_random.html#
     !! description))
         module procedure dist_rand_iint8
         module procedure dist_rand_iint16
@@ -29,7 +29,7 @@ module stdlib_stats_distribution_PRNG
     !! Version experimental
     !!
     !! Set seed value for random number generator
-    !! ([Specification](../page/specs/stdlib_stats_distribution_PRNG.html#
+    !! ([Specification](../page/specs/stdlib_random.html#
     !! description))
     !!
         module procedure random_distribution_seed_iint8
@@ -253,4 +253,4 @@ module stdlib_stats_distribution_PRNG
         seed_initialized = .true.
     end subroutine random_distribution_seed_iint64
 
-end module stdlib_stats_distribution_PRNG
+end module stdlib_random
