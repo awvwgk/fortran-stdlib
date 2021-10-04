@@ -18,7 +18,7 @@ module stdlib_random
     !!
     !! Generation of random integers with different kinds
     !! ([Specification](../page/specs/stdlib_random.html#
-    !! description))
+    !! dist_rand-get-a-random-integer-with-specified-kind))
         module procedure dist_rand_iint8
         module procedure dist_rand_iint16
         module procedure dist_rand_iint32
@@ -30,7 +30,7 @@ module stdlib_random
     !!
     !! Set seed value for random number generator
     !! ([Specification](../page/specs/stdlib_random.html#
-    !! description))
+    !! random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudorandom-number-generator))
     !!
         module procedure random_distribution_seed_iint8
         module procedure random_distribution_seed_iint16
