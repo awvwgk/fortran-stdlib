@@ -4,3 +4,8 @@ license = "MIT"
 author = "stdlib contributors"
 maintainer = "@fortran-lang/stdlib"
 copyright = "2019-2021 stdlib contributors"
+
+[dev-dependencies]
+test-drive.git = "https://github.com/fortran-lang/test-drive"
+# FIXME: Remove once patch is merged
+test-drive.rev = "78881f88bf4165fc1fcb387ab52b6ac29010273b"
