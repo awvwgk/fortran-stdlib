@@ -1,272 +1,243 @@
-module test_logspace
-    use testdrive, only : new_unittest, unittest_type, error_type, check
+program test_logspace
+
+    use stdlib_error, only: check
     use stdlib_kinds, only: sp, dp, int8, int16, int32, int64
     use stdlib_math, only: logspace, DEFAULT_LOGSPACE_BASE, DEFAULT_LOGSPACE_LENGTH
 
     implicit none
 
-    ! Testing logspace
-    !
-    ! logspace should return a rank 1 array of values equally logarithmically spaced
-    ! from the base**start to base**end, using 10 as the base. If no length
-    ! is specified, return a rank 1 array with 50 elements.
-    !
-    ! Also test to verify that the proportion between adjacent elements is constant within
-    ! a certain tolerance
+        logical :: warn = .false.
 
-    real(sp), parameter :: TOLERANCE_SP = 1000 * epsilon(1.0_sp)
-    real(dp), parameter :: TOLERANCE_DP = 1000 * epsilon(1.0_dp) ! Percentage of the range for which the actual gap must not exceed
+        integer :: iunit
 
+        ! Testing logspace
+        !
+        ! logspace should return a rank 1 array of values equally logarithmically spaced
+        ! from the base**start to base**end, using 10 as the base. If no length
+        ! is specified, return a rank 1 array with 50 elements.
+        !
+        ! Also test to verify that the proportion between adjacent elements is constant within
+        ! a certain tolerance
 
-contains
+        real(sp), parameter :: TOLERANCE_SP = 1000 * epsilon(1.0_sp)
+        real(dp), parameter :: TOLERANCE_DP = 1000 * epsilon(1.0_dp) ! Percentage of the range for which the actual gap must not exceed
 
-    !> Collect all exported unit tests
-    subroutine collect_logspace(testsuite)
-        !> Collection of tests
-        type(unittest_type), allocatable, intent(out) :: testsuite(:)
+        open(newunit=iunit, file="test_logspace_log.txt", status="unknown") ! Log the results of the function
 
-        testsuite = [ &
-            new_unittest("logspace_sp", test_logspace_sp), &
-            new_unittest("logspace_dp", test_logspace_dp), &
-            new_unittest("logspace_default", test_logspace_default), &
-            new_unittest("logspace_base_2", test_logspace_base_2), &
-            new_unittest("logspace_base_2_cmplx_start", test_logspace_base_2_cmplx_start), &
-            new_unittest("logspace_base_i_int_start", test_logspace_base_i_int_start) &
-            ]
+        write(iunit,*) "Writing to unit #: ", iunit
 
-    end subroutine collect_logspace
+        call test_logspace_sp
+        call test_logspace_dp
+        call test_logspace_default
+        call test_logspace_base_2
+        call test_logspace_base_2_cmplx_start
+        call test_logspace_base_i_int_start
 
-    subroutine test_logspace_sp(error)
-        !> Error handling
-        type(error_type), allocatable, intent(out) :: error
+        close(unit=iunit)
 
-        integer, parameter :: n = 20
-        real(sp), parameter :: start = 0.0_sp
-        real(sp), parameter :: end = 2.0_sp
+    contains
 
-        real(sp) :: expected_proportion
-        integer :: i
+        subroutine test_logspace_sp
 
-        real(sp), allocatable :: x(:)
+            integer :: n = 20
+            real(sp) :: start = 0.0_sp
+            real(sp) :: end = 2.0_sp
 
-        x = logspace(start, end, n)
+            real(sp) :: expected_proportion
+            integer :: i = 1
 
-        expected_proportion = 10 ** ( ( end - start ) / ( n - 1 ) )
+            real(sp), allocatable :: x(:)
 
-        call check(error, size(x), n, "Array not allocated to appropriate size")
-        if (allocated(error)) return
-        call check(error, x(1), DEFAULT_LOGSPACE_BASE ** start, "Initial value of array is not equal to 10^start")
-        if (allocated(error)) return
-        call check(error, x(n), DEFAULT_LOGSPACE_BASE ** end, "Final value of array is not equal to 10^end")
-        if (allocated(error)) return
+            x = logspace(start, end, n)
 
-        do i = 1, n-1
+            expected_proportion = 10 ** ( ( end - start ) / ( n - 1 ) )
 
-            call check(error, x(i + 1) / x(i), expected_proportion, &
-                & thr=abs(expected_proportion) * TOLERANCE_SP)
-            if (allocated(error)) return
+            call check(x(1) == DEFAULT_LOGSPACE_BASE ** start, msg="Initial value of array is not equal to 10^start", warn=warn)
+            call check(x(n) == DEFAULT_LOGSPACE_BASE ** end, msg="Final value of array is not equal to 10^end", warn=warn)
+            call check(size(x) == n, msg="Array not allocated to appropriate size", warn=warn)
 
-        end do
+            do i = 1, n-1
 
+                call check(abs(x(i + 1) / x(i) - expected_proportion) < abs(expected_proportion) * TOLERANCE_SP)
 
-    end subroutine
+            end do
 
-    subroutine test_logspace_dp(error)
-        !> Error handling
-        type(error_type), allocatable, intent(out) :: error
 
-        integer, parameter :: n = 10
-        real(dp), parameter :: start = 1.0_dp
-        real(dp), parameter :: end = 0.0_dp
-        real(dp) :: expected_proportion
-        integer :: i
+            write(unit=iunit, fmt=*) "logspace(0.0_sp, 2.0_sp, 20): "
+            write(unit=iunit,fmt='(70("="))')
+            write(unit=iunit,fmt="(20(F7.3, 2X))") x
+            write(iunit,*)
+            write(iunit,*)
 
-        real(dp), allocatable :: x(:)
+        end subroutine
 
-        x = logspace(start, end, n)
+        subroutine test_logspace_dp
 
-        expected_proportion = 10 ** ( ( end - start ) / ( n - 1 ) )
+            integer :: n = 10
+            real(dp) :: start = 1.0_dp
+            real(dp) :: end = 0.0_dp
+            real(dp) :: expected_proportion
+            integer :: i = 1
 
+            real(dp), allocatable :: x(:)
 
-        call check(error, size(x), n, "Array not allocated to appropriate size")
-        if (allocated(error)) return
-        call check(error, x(1), DEFAULT_LOGSPACE_BASE ** start, "Initial value of array is not equal to 10^start")
-        if (allocated(error)) return
-        call check(error, x(n), DEFAULT_LOGSPACE_BASE ** end, "Final value of array is not equal to 10^end")
-        if (allocated(error)) return
+            x = logspace(start, end, n)
 
-        do i = 1, n-1
+            expected_proportion = 10 ** ( ( end - start ) / ( n - 1 ) )
 
-            call check(error, x(i + 1) / x(i), expected_proportion, &
-                & thr=abs(expected_proportion) * TOLERANCE_DP)
-            if (allocated(error)) return
 
-        end do
+            call check(x(1) == DEFAULT_LOGSPACE_BASE ** start, msg="Initial value of array is not equal to 10^start", warn=warn)
+            call check(x(n) == DEFAULT_LOGSPACE_BASE ** end, msg="Final value of array is not equal to 10^end", warn=warn)
+            call check(size(x) == n, msg="Array not allocated to appropriate size", warn=warn)
 
-    end subroutine
+            do i = 1, n-1
 
-    subroutine test_logspace_default(error)
-        !> Error handling
-        type(error_type), allocatable, intent(out) :: error
+                call check(abs(x(i + 1) / x(i) - expected_proportion) < abs(expected_proportion) * TOLERANCE_DP)
 
-        real(dp), parameter :: start = 0.0_dp
-        real(dp), parameter :: end = 1.0_dp
-        integer, parameter :: n = DEFAULT_LOGSPACE_LENGTH
-        real(dp) :: expected_proportion
-        integer :: i
+            end do
 
-        real(dp), allocatable :: x(:)
+            write(unit=iunit, fmt=*) "logspace(1.0_dp, 0.0_dp, 10): "
+            write(unit=iunit,fmt=99)
+            write(unit=iunit,fmt="(10(F7.3, 2X))") x
+            write(iunit,*)
+            write(iunit,*)
 
-        x = logspace(start, end)
+            99 format(70("="))
 
-        expected_proportion = 10 ** ( ( end - start ) / ( n - 1 ) )
+        end subroutine
 
+        subroutine test_logspace_default
 
-        call check(error, size(x), n, "Array not allocated to appropriate size")
-        if (allocated(error)) return
-        call check(error, x(1), DEFAULT_LOGSPACE_BASE ** start, "Initial value of array is not equal to 10^start")
-        if (allocated(error)) return
-        call check(error, x(n), DEFAULT_LOGSPACE_BASE ** end, "Final value of array is not equal to 10^end")
-        if (allocated(error)) return
+            real(dp) :: start = 0.0_dp
+            real(dp) :: end = 1.0_dp
+            integer :: n = DEFAULT_LOGSPACE_LENGTH
+            real(dp) :: expected_proportion
+            integer :: i
 
-        do i = 1, n-1
+            real(dp), allocatable :: x(:)
 
-            call check(error, x(i + 1) / x(i), expected_proportion, &
-                & thr=abs(expected_proportion) * TOLERANCE_DP)
-            if (allocated(error)) return
+            x = logspace(start, end)
 
-        end do
+            expected_proportion = 10 ** ( ( end - start ) / ( n - 1 ) )
 
-    end subroutine
 
-    subroutine test_logspace_base_2(error)
-        !> Error handling
-        type(error_type), allocatable, intent(out) :: error
+            call check(x(1) == DEFAULT_LOGSPACE_BASE ** start, msg="Initial value of array is not equal to 10^start", warn=warn)
+            call check(x(n) == DEFAULT_LOGSPACE_BASE ** end, msg="Final value of array is not equal to 10^end", warn=warn)
+            call check(size(x) == n, msg="Array not allocated to appropriate size", warn=warn)
 
-        integer, parameter :: n = 10
-        real(dp), parameter :: start = 1.0_dp
-        real(dp), parameter :: end = 10.0_dp
-        integer, parameter :: base = 2
-        integer :: i
-        real(dp) :: expected_proportion
+            do i = 1, n-1
 
-        real(dp), allocatable :: x(:)
+                call check(abs(x(i + 1) / x(i) - expected_proportion) < abs(expected_proportion) * TOLERANCE_DP)
 
-        x = logspace(start, end, n, base)
+            end do
 
-        expected_proportion = 2 ** ( ( end - start ) / ( n - 1 ) )
+            write(unit=iunit, fmt=*) "logspace(0.0_dp, 1.0_dp): "
+            write(unit=iunit,fmt='(70("="))')
+            write(unit=iunit,fmt="(50(F7.3, 2X))") x
+            write(iunit,*)
+            write(iunit,*)
 
-        call check(error, size(x), n, "Array not allocated to appropriate size")
-        if (allocated(error)) return
-        call check(error, x(1), base ** start, "Initial value of array is not equal to 2^start")
-        if (allocated(error)) return
-        call check(error, x(n), base ** end, "Final value of array is not equal to 2^end")
-        if (allocated(error)) return
+        end subroutine
 
-        do i = 1, n-1
+        subroutine test_logspace_base_2
 
-            call check(error, x(i + 1) / x(i), expected_proportion, &
-                & thr=abs(expected_proportion) * TOLERANCE_DP)
-            if (allocated(error)) return
+            integer :: n = 10
+            real(dp) :: start = 1.0_dp
+            real(dp) :: end = 10.0_dp
+            integer :: base = 2
+            integer :: i
+            real(dp) :: expected_proportion
 
-        end do
+            real(dp), allocatable :: x(:)
 
-    end subroutine
+            x = logspace(start, end, n, base)
 
-    subroutine test_logspace_base_2_cmplx_start(error)
-        !> Error handling
-        type(error_type), allocatable, intent(out) :: error
+            expected_proportion = 2 ** ( ( end - start ) / ( n - 1 ) )
 
-        integer, parameter :: n = 10
-        complex(dp), parameter :: start = (1, 0)
-        complex(dp), parameter :: end = (0, 1)
-        integer, parameter :: base = 2
-        complex(dp) :: expected_proportion
-        integer :: i
+            call check(x(1) == base ** start, msg="Initial value of array is not equal to 2^start", warn=warn)
+            call check(x(n) == base ** end, msg="Final value of array is not equal to 2^end", warn=warn)
+            call check(size(x) == n, msg="Array not allocated to appropriate size", warn=warn)
 
-        complex(dp), allocatable :: x(:)
+            do i = 1, n-1
 
-        x = logspace(start, end, n, base)
+                call check(abs(x(i + 1) / x(i) - expected_proportion) < abs(expected_proportion) * TOLERANCE_DP)
 
-        expected_proportion = 2 ** ( ( end - start ) / ( n - 1 ) )
+            end do
 
+            write(unit=iunit, fmt=*) "logspace(1.0_dp, 10.0_dp, 10, 2): "
+            write(unit=iunit,fmt='(70("="))')
+            write(unit=iunit,fmt="(10(F9.3, 2X))") x
+            write(iunit,*)
+            write(iunit,*)
 
-        call check(error, size(x), n, "Array not allocated to appropriate size")
-        if (allocated(error)) return
-        call check(error, x(1), base ** start, "Initial value of array is not equal to 2^start")
-        if (allocated(error)) return
-        call check(error, x(n), base ** end, "Final value of array is not equal to 2^end")
-        if (allocated(error)) return
+        end subroutine
 
-        do i = 1, n-1
+        subroutine test_logspace_base_2_cmplx_start
 
-            call check(error, x(i + 1) / x(i), expected_proportion, &
-                & thr=abs(expected_proportion) * TOLERANCE_DP)
-            if (allocated(error)) return
+            integer :: n = 10
+            complex(dp) :: start = (1, 0)
+            complex(dp) :: end = (0, 1)
+            integer :: base = 2
+            complex(dp) :: expected_proportion
+            integer :: i
 
-        end do
+            complex(dp), allocatable :: x(:)
 
-    end subroutine
+            x = logspace(start, end, n, base)
 
-    subroutine test_logspace_base_i_int_start(error)
-        !> Error handling
-        type(error_type), allocatable, intent(out) :: error
+            expected_proportion = 2 ** ( ( end - start ) / ( n - 1 ) )
 
-        integer, parameter :: n = 5
-        integer, parameter :: start = 1
-        integer, parameter :: end = 5
-        complex(dp), parameter :: base = (0, 1) ! i
-        complex(dp) :: expected_proportion
-        integer :: i
 
-        complex(dp), allocatable :: x(:)
+            call check(x(1) == base ** start, msg="Initial value of array is not equal to 2^start", warn=warn)
+            call check(x(n) == base ** end, msg="Final value of array is not equal to 2^end", warn=warn)
+            call check(size(x) == n, msg="Array not allocated to appropriate size", warn=warn)
 
-        x = logspace(start, end, n, base)
+            do i = 1, n-1
 
-        expected_proportion = base ** ( ( end - start ) / ( n - 1 ) )
+                call check(abs(x(i + 1) / x(i) - expected_proportion) < abs(expected_proportion) * TOLERANCE_DP)
 
-        call check(error, size(x), n, "Array not allocated to appropriate size")
-        if (allocated(error)) return
-        call check(error, x(1), base ** start, "Initial value of array is not equal to 2^start")
-        if (allocated(error)) return
-        call check(error, x(n), base ** end, "Final value of array is not equal to 2^end")
-        if (allocated(error)) return
+            end do
 
-        do i = 1, n-1
+            write(unit=iunit, fmt=*) "logspace(1, i, 10, 2): "
+            write(unit=iunit,fmt='(70("="))')
+            write(unit=iunit,fmt="(10('(', F6.3, ',', 1X, F6.3, ')', 2X))") x
+            write(iunit,*)
+            write(iunit,*)
 
-            call check(error, x(i + 1) / x(i), expected_proportion, &
-                & thr=abs(expected_proportion) * TOLERANCE_DP)
-            if (allocated(error)) return
+        end subroutine
 
-        end do
+        subroutine test_logspace_base_i_int_start
 
-    end subroutine
+            integer :: n = 5
+            integer :: start = 1
+            integer :: end = 5
+            complex(dp) :: base = (0, 1) ! i
+            complex(dp) :: expected_proportion
+            integer :: i = 1
 
+            complex(dp), allocatable :: x(:)
 
-end module
+            x = logspace(start, end, n, base)
 
-program tester
-    use, intrinsic :: iso_fortran_env, only : error_unit
-    use testdrive, only : run_testsuite, new_testsuite, testsuite_type
-    use test_logspace, only : collect_logspace
-    implicit none
-    integer :: stat, is
-    type(testsuite_type), allocatable :: testsuites(:)
-    character(len=*), parameter :: fmt = '("#", *(1x, a))'
+            expected_proportion = base ** ( ( end - start ) / ( n - 1 ) )
 
-    stat = 0
+            call check(x(1) == base ** start, msg="Initial value of array is not equal to 2^start", warn=warn)
+            call check(x(n) == base ** end, msg="Final value of array is not equal to 2^end", warn=warn)
+            call check(size(x) == n, msg="Array not allocated to appropriate size", warn=warn)
 
-    testsuites = [ &
-        new_testsuite("logspace", collect_logspace) &
-        ]
+            do i = 1, n-1
 
-    do is = 1, size(testsuites)
-        write(error_unit, fmt) "Testing:", testsuites(is)%name
-        call run_testsuite(testsuites(is)%collect, error_unit, stat)
-    end do
+                call check(abs(x(i + 1) / x(i) - expected_proportion) < abs(expected_proportion) * TOLERANCE_DP)
 
-    if (stat > 0) then
-        write(error_unit, '(i0, 1x, a)') stat, "test(s) failed!"
-        error stop
-    end if
-end program tester
+            end do
+
+            write(unit=iunit, fmt=*) "logspace(1, 5, 5, i): "
+            write(unit=iunit,fmt='(70("="))')
+            write(unit=iunit,fmt="(10('(', F6.3, ',', 1X, F6.3, ')', 2X))") x
+            write(iunit,*)
+            write(iunit,*)
+
+        end subroutine
+
+
+    end program
