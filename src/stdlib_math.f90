@@ -6,7 +6,7 @@ module stdlib_math
     implicit none
     private
     public :: clip, gcd, linspace, logspace
-    public :: EULERS_NUMBER_SP, EULERS_NUMBER_DP, EULERS_NUMBER_QP
+    public :: EULERS_NUMBER_SP, EULERS_NUMBER_DP
     public :: DEFAULT_LINSPACE_LENGTH, DEFAULT_LOGSPACE_BASE, DEFAULT_LOGSPACE_LENGTH
     public :: arange
 
@@ -17,7 +17,6 @@ module stdlib_math
     ! Useful constants for lnspace
     real(sp), parameter :: EULERS_NUMBER_SP = exp(1.0_sp)
     real(dp), parameter :: EULERS_NUMBER_DP = exp(1.0_dp)
-    real(qp), parameter :: EULERS_NUMBER_QP = exp(1.0_qp)
 
     interface clip
         module procedure clip_int8

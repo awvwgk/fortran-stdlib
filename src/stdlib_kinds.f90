@@ -15,10 +15,10 @@ module stdlib_kinds
   integer, parameter :: dp = selected_real_kind(15)
 
   !> Extended double precision real numbers
-  integer, parameter :: xdp = selected_real_kind(18)
+  integer, parameter :: xdp = -1
 
   !> Quadruple precision real numbers
-  integer, parameter :: qp = selected_real_kind(33)
+  integer, parameter :: qp = -1
 
   !> Default logical kind parameter
   integer, parameter :: lk = kind(.true.)
