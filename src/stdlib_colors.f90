@@ -133,7 +133,7 @@ module stdlib_colors
     character(len=*), parameter :: bg_color24_prefix = "48;2;"
 
     !> Escape sequence for terminal style and color
-    character(len=*), parameter :: esc = char(27) // "["
+    character(len=*), parameter :: esc = achar(27) // "["
 
 
     interface to_string
