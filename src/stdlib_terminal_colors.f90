@@ -1,7 +1,7 @@
 ! SPDX-Identifier: MIT
 
 !> Terminal color and style escape sequences
-module stdlib_colors
+module stdlib_terminal_colors
     implicit none
     private
 
@@ -179,4 +179,4 @@ module stdlib_colors
     end interface to_string
 
 
-end module stdlib_colors
+end module stdlib_terminal_colors

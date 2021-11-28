@@ -1,7 +1,7 @@
 ! SPDX-Identifier: MIT
 
 !> Implementation of the conversion to enumerator and identifier types to strings
-submodule (stdlib_colors) stdlib_colors_to_string
+submodule (stdlib_terminal_colors) stdlib_terminal_colors_to_string
     use stdlib_strings, only : to_string_ => to_string
     implicit none
 
@@ -70,4 +70,4 @@ pure module function to_string_bg_color24(bg_color) result(str)
 end function to_string_bg_color24
 
 
-end submodule stdlib_colors_to_string
+end submodule stdlib_terminal_colors_to_string

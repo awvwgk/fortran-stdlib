@@ -1,7 +1,8 @@
 ! SPDX-Identifier: MIT
 
 module test_colors
-    use stdlib_colors
+    use stdlib_terminal_colors, only : fg_color24, bg_color24, fg_color_red, &
+        & bg_color_yellow, style_bold, to_string
     use testdrive, only : new_unittest, unittest_type, error_type, check
     implicit none
 
