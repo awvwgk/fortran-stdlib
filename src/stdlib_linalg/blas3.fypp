@@ -1,0 +1,910 @@
+! SPDX-Identifier: MIT
+
+#:set BLAS_KIND = ["sp", "dp"]
+#:set BLAS_REAL = [("s", "sp"), ("d", "dp")]
+#:set BLAS_COMPLEX = [("c", "sp"), ("z", "dp")]
+
+!> Interfaces to level 3 BLAS routines.
+module stdlib_linalg_blas3
+  use stdlib_kinds, only : ik => int32, sp, dp
+  implicit none
+  private
+
+  public :: blas_gemm, blas_hemm, blas_her2k, blas_herk, blas_symm, blas_syr2k, blas_syrk, &
+    & blas_trsm, blas_trmm
+
+  !> Performs one of the matrix-matrix operations
+  !>
+  !>    C := alpha*op( A )*op( B ) + beta*C,
+  !>
+  !> where  op( X ) is one of
+  !>
+  !>    op( X ) = X   or   op( X ) = X**T,
+  !>
+  !> alpha and beta are scalars, and A, B and C are matrices, with op( A )
+  !> an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
+  interface blas_gemm
+  #:for prefix, wp in BLAS_REAL
+    pure subroutine ${prefix}$gemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldc
+      integer(ik), intent(in) :: ldb
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: transa
+      character, intent(in) :: transb
+      integer(ik), intent(in) :: m
+      integer(ik), intent(in) :: n
+      integer(ik), intent(in) :: k
+      real(wp), intent(in) :: alpha
+      real(wp), intent(in) :: a(lda, *)
+      real(wp), intent(in) :: b(ldb, *)
+      real(wp), intent(in) :: beta
+      real(wp), intent(inout) :: c(ldc, *)
+    end subroutine ${prefix}$gemm
+  #:endfor
+
+  #:for prefix, wp in BLAS_COMPLEX
+    pure subroutine ${prefix}$gemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldc
+      integer(ik), intent(in) :: ldb
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: transa
+      character, intent(in) :: transb
+      integer(ik), intent(in) :: m
+      integer(ik), intent(in) :: n
+      integer(ik), intent(in) :: k
+      complex(wp), intent(in) :: alpha
+      complex(wp), intent(in) :: a(lda, *)
+      complex(wp), intent(in) :: b(ldb, *)
+      complex(wp), intent(in) :: beta
+      complex(wp), intent(inout) :: c(ldc, *)
+    end subroutine ${prefix}$gemm
+  #:endfor
+
+  #:for wp in BLAS_KIND
+    module procedure :: blas_gemm_r${wp}$
+    module procedure :: blas_gemm_c${wp}$
+  #:endfor
+  end interface blas_gemm
+
+  interface blas_hemm
+  #:for prefix, wp in BLAS_COMPLEX
+    pure subroutine ${prefix}$hemm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldc
+      integer(ik), intent(in) :: ldb
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: side
+      character, intent(in) :: uplo
+      integer(ik), intent(in) :: m
+      integer(ik), intent(in) :: n
+      complex(wp), intent(in) :: alpha
+      complex(wp), intent(in) :: a(lda, *)
+      complex(wp), intent(in) :: b(ldb, *)
+      complex(wp), intent(in) :: beta
+      complex(wp), intent(inout) :: c(ldc, *)
+    end subroutine ${prefix}$hemm
+  #:endfor
+
+  #:for wp in BLAS_KIND
+    module procedure :: blas_hemm_c${wp}$
+  #:endfor
+  end interface blas_hemm
+
+  interface blas_her2k
+  #:for prefix, wp in BLAS_COMPLEX
+    pure subroutine ${prefix}$her2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldc
+      integer(ik), intent(in) :: ldb
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: uplo
+      character, intent(in) :: trans
+      integer(ik), intent(in) :: n
+      integer(ik), intent(in) :: k
+      complex(wp), intent(in) :: alpha
+      complex(wp), intent(in) :: a(lda, *)
+      complex(wp), intent(in) :: b(ldb, *)
+      real(wp), intent(in) :: beta
+      complex(wp), intent(inout) :: c(ldc, *)
+    end subroutine ${prefix}$her2k
+  #:endfor
+
+  #:for wp in BLAS_KIND
+    module procedure :: blas_her2k_c${wp}$
+  #:endfor
+  end interface blas_her2k
+
+  interface blas_herk
+  #:for prefix, wp in BLAS_COMPLEX
+    pure subroutine ${prefix}$herk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldc
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: uplo
+      character, intent(in) :: trans
+      integer(ik), intent(in) :: n
+      integer(ik), intent(in) :: k
+      real(wp), intent(in) :: alpha
+      complex(wp), intent(in) :: a(lda, *)
+      real(wp), intent(in) :: beta
+      complex(wp), intent(inout) :: c(ldc, *)
+    end subroutine ${prefix}$herk
+  #:endfor
+
+  #:for wp in BLAS_KIND
+    module procedure :: blas_herk_c${wp}$
+  #:endfor
+  end interface blas_herk
+
+  !> Performs one of the matrix-matrix operations
+  !>
+  !>    C := alpha*A*B + beta*C,
+  !>
+  !> or
+  !>
+  !>    C := alpha*B*A + beta*C,
+  !>
+  !> where alpha and beta are scalars,  A is a symmetric matrix and  B and
+  !> C are  m by n matrices.
+  interface blas_symm
+  #:for prefix, wp in BLAS_REAL
+    pure subroutine ${prefix}$symm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldc
+      integer(ik), intent(in) :: ldb
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: side
+      character, intent(in) :: uplo
+      integer(ik), intent(in) :: m
+      integer(ik), intent(in) :: n
+      real(wp), intent(in) :: alpha
+      real(wp), intent(in) :: a(lda, *)
+      real(wp), intent(in) :: b(ldb, *)
+      real(wp), intent(in) :: beta
+      real(wp), intent(inout) :: c(ldc, *)
+    end subroutine ${prefix}$symm
+  #:endfor
+
+  #:for prefix, wp in BLAS_COMPLEX
+    pure subroutine ${prefix}$symm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldc
+      integer(ik), intent(in) :: ldb
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: side
+      character, intent(in) :: uplo
+      integer(ik), intent(in) :: m
+      integer(ik), intent(in) :: n
+      complex(wp), intent(in) :: alpha
+      complex(wp), intent(in) :: a(lda, *)
+      complex(wp), intent(in) :: b(ldb, *)
+      complex(wp), intent(in) :: beta
+      complex(wp), intent(inout) :: c(ldc, *)
+    end subroutine ${prefix}$symm
+  #:endfor
+
+  #:for wp in BLAS_KIND
+    module procedure :: blas_symm_r${wp}$
+    module procedure :: blas_symm_c${wp}$
+  #:endfor
+  end interface blas_symm
+
+  !> Performs one of the symmetric rank 2k operations
+  !>
+  !>    C := alpha*A*B**T + alpha*B*A**T + beta*C,
+  !>
+  !> or
+  !>
+  !>    C := alpha*A**T*B + alpha*B**T*A + beta*C,
+  !>
+  !> where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
+  !> and  A and B  are  n by k  matrices  in the  first  case  and  k by n
+  !> matrices in the second case.
+  interface blas_syr2k
+  #:for prefix, wp in BLAS_REAL
+    pure subroutine ${prefix}$syr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldc
+      integer(ik), intent(in) :: ldb
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: uplo
+      character, intent(in) :: trans
+      integer(ik), intent(in) :: n
+      integer(ik), intent(in) :: k
+      real(wp), intent(in) :: alpha
+      real(wp), intent(in) :: a(lda, *)
+      real(wp), intent(in) :: b(ldb, *)
+      real(wp), intent(in) :: beta
+      real(wp), intent(inout) :: c(ldc, *)
+    end subroutine ${prefix}$syr2k
+  #:endfor
+
+  #:for prefix, wp in BLAS_COMPLEX
+    pure subroutine ${prefix}$syr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldc
+      integer(ik), intent(in) :: ldb
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: uplo
+      character, intent(in) :: trans
+      integer(ik), intent(in) :: n
+      integer(ik), intent(in) :: k
+      complex(wp), intent(in) :: alpha
+      complex(wp), intent(in) :: a(lda, *)
+      complex(wp), intent(in) :: b(ldb, *)
+      complex(wp), intent(in) :: beta
+      complex(wp), intent(inout) :: c(ldc, *)
+    end subroutine ${prefix}$syr2k
+  #:endfor
+
+  #:for wp in BLAS_KIND
+    module procedure :: blas_syr2k_r${wp}$
+    module procedure :: blas_syr2k_c${wp}$
+  #:endfor
+  end interface blas_syr2k
+
+  !> Performs one of the symmetric rank k operations
+  !>
+  !>    C := alpha*A*A**T + beta*C,
+  !>
+  !> or
+  !>
+  !>    C := alpha*A**T*A + beta*C,
+  !>
+  !> where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
+  !> and  A  is an  n by k  matrix in the first case and a  k by n  matrix
+  !> in the second case.
+  interface blas_syrk
+  #:for prefix, wp in BLAS_REAL
+    pure subroutine ${prefix}$syrk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldc
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: uplo
+      character, intent(in) :: trans
+      integer(ik), intent(in) :: n
+      integer(ik), intent(in) :: k
+      real(wp), intent(in) :: alpha
+      real(wp), intent(in) :: a(lda, *)
+      real(wp), intent(in) :: beta
+      real(wp), intent(inout) :: c(ldc, *)
+    end subroutine ${prefix}$syrk
+  #:endfor
+
+  #:for prefix, wp in BLAS_COMPLEX
+    pure subroutine ${prefix}$syrk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldc
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: uplo
+      character, intent(in) :: trans
+      integer(ik), intent(in) :: n
+      integer(ik), intent(in) :: k
+      complex(wp), intent(in) :: alpha
+      complex(wp), intent(in) :: a(lda, *)
+      complex(wp), intent(in) :: beta
+      complex(wp), intent(inout) :: c(ldc, *)
+    end subroutine ${prefix}$syrk
+  #:endfor
+
+  #:for wp in BLAS_KIND
+    module procedure :: blas_syrk_r${wp}$
+    module procedure :: blas_syrk_c${wp}$
+  #:endfor
+  end interface blas_syrk
+
+  !> Performs one of the matrix-matrix operations
+  !>
+  !>    B := alpha*op( A )*B,   or   B := alpha*B*op( A ),
+  !>
+  !> where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
+  !> non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
+  !>
+  !>    op( A ) = A   or   op( A ) = A**T.
+  interface blas_trmm
+  #:for prefix, wp in BLAS_REAL
+    pure subroutine ${prefix}$trmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldb
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: side
+      character, intent(in) :: uplo
+      character, intent(in) :: transa
+      character, intent(in) :: diag
+      integer(ik), intent(in) :: m
+      integer(ik), intent(in) :: n
+      real(wp), intent(in) :: alpha
+      real(wp), intent(in) :: a(lda, *)
+      real(wp), intent(inout) :: b(ldb, *)
+    end subroutine ${prefix}$trmm
+  #:endfor
+
+  #:for prefix, wp in BLAS_COMPLEX
+    pure subroutine ${prefix}$trmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldb
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: side
+      character, intent(in) :: uplo
+      character, intent(in) :: transa
+      character, intent(in) :: diag
+      integer(ik), intent(in) :: m
+      integer(ik), intent(in) :: n
+      complex(wp), intent(in) :: alpha
+      complex(wp), intent(in) :: a(lda, *)
+      complex(wp), intent(inout) :: b(ldb, *)
+    end subroutine ${prefix}$trmm
+  #:endfor
+
+  #:for wp in BLAS_KIND
+    module procedure :: blas_trmm_r${wp}$
+    module procedure :: blas_trmm_c${wp}$
+  #:endfor
+  end interface blas_trmm
+
+  !> Solves one of the matrix equations
+  !>
+  !>    op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
+  !>
+  !> where alpha is a scalar, X and B are m by n matrices, A is a unit, or
+  !> non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
+  !>
+  !>    op( A ) = A   or   op( A ) = A**T.
+  !>
+  !> The matrix X is overwritten on B.
+  interface blas_trsm
+  #:for prefix, wp in BLAS_REAL
+    pure subroutine ${prefix}$trsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldb
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: side
+      character, intent(in) :: uplo
+      character, intent(in) :: transa
+      character, intent(in) :: diag
+      integer(ik), intent(in) :: m
+      integer(ik), intent(in) :: n
+      real(wp), intent(in) :: alpha
+      real(wp), intent(in) :: a(lda, *)
+      real(wp), intent(inout) :: b(ldb, *)
+    end subroutine ${prefix}$trsm
+  #:endfor
+
+  #:for prefix, wp in BLAS_COMPLEX
+    pure subroutine ${prefix}$trsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
+      import :: ik, ${wp}$
+      integer, parameter :: wp = ${wp}$
+      integer(ik), intent(in) :: ldb
+      integer(ik), intent(in) :: lda
+      character, intent(in) :: side
+      character, intent(in) :: uplo
+      character, intent(in) :: transa
+      character, intent(in) :: diag
+      integer(ik), intent(in) :: m
+      integer(ik), intent(in) :: n
+      complex(wp), intent(in) :: alpha
+      complex(wp), intent(in) :: a(lda, *)
+      complex(wp), intent(inout) :: b(ldb, *)
+    end subroutine ${prefix}$trsm
+  #:endfor
+
+  #:for wp in BLAS_KIND
+    module procedure :: blas_trsm_r${wp}$
+    module procedure :: blas_trsm_c${wp}$
+  #:endfor
+  end interface blas_trsm
+
+contains
+
+#:for wp in BLAS_KIND
+  pure subroutine blas_gemm_r${wp}$(amat, bmat, cmat, transa, transb, alpha, beta)
+    integer, parameter :: wp = ${wp}$
+    real(wp), contiguous, intent(in) :: amat(:, :)
+    real(wp), contiguous, intent(in) :: bmat(:, :)
+    real(wp), contiguous, intent(inout) :: cmat(:, :)
+    character, intent(in), optional :: transa
+    character, intent(in), optional :: transb
+    real(wp), intent(in), optional :: alpha
+    real(wp), intent(in), optional :: beta
+
+    character :: tra, trb
+    real(wp) :: a, b
+    integer(ik) :: m, n, k, lda, ldb, ldc
+
+    a = 1.0_wp
+    if (present(alpha)) a = alpha
+    b = 0.0_wp
+    if (present(beta)) b = beta
+    tra = 'n'
+    if (present(transa)) tra = transa
+    trb = 'n'
+    if (present(transb)) trb = transb
+    if ((tra == 'n'.or.tra == 'N')) then
+      k = size(amat, 2)
+    else
+      k = size(amat, 1)
+    end if
+    lda = max(1, size(amat, 1))
+    ldb = max(1, size(bmat, 1))
+    ldc = max(1, size(cmat, 1))
+    m = size(cmat, 1)
+    n = size(cmat, 2)
+    call blas_gemm(tra, trb, m, n, k, a, amat, lda, bmat, ldb, b, cmat, ldc)
+  end subroutine blas_gemm_r${wp}$
+
+  pure subroutine blas_gemm_c${wp}$(amat, bmat, cmat, transa, transb, alpha, beta)
+    integer, parameter :: wp = ${wp}$
+    complex(wp), contiguous, intent(in) :: amat(:, :)
+    complex(wp), contiguous, intent(in) :: bmat(:, :)
+    complex(wp), contiguous, intent(inout) :: cmat(:, :)
+    character, intent(in), optional :: transa
+    character, intent(in), optional :: transb
+    complex(wp), intent(in), optional :: alpha
+    complex(wp), intent(in), optional :: beta
+
+    character :: tra, trb
+    complex(wp) :: a, b
+    integer(ik) :: m, n, k, lda, ldb, ldc
+
+    a = 1.0_wp
+    if (present(alpha)) a = alpha
+    b = 0.0_wp
+    if (present(beta)) b = beta
+    tra = 'n'
+    if (present(transa)) tra = transa
+    trb = 'n'
+    if (present(transb)) trb = transb
+    if ((tra == 'n'.or.tra == 'N')) then
+      k = size(amat, 2)
+    else
+      k = size(amat, 1)
+    end if
+    lda = max(1, size(amat, 1))
+    ldb = max(1, size(bmat, 1))
+    ldc = max(1, size(cmat, 1))
+    m = size(cmat, 1)
+    n = size(cmat, 2)
+    call blas_gemm(tra, trb, m, n, k, a, amat, lda, bmat, ldb, b, cmat, ldc)
+  end subroutine blas_gemm_c${wp}$
+#:endfor
+
+#:for wp in BLAS_KIND
+  pure subroutine blas_symm_r${wp}$(amat, bmat, cmat, side, uplo, alpha, beta)
+    integer, parameter :: wp = ${wp}$
+    real(wp), contiguous, intent(in) :: amat(:, :)
+    real(wp), contiguous, intent(in) :: bmat(:, :)
+    real(wp), contiguous, intent(inout) :: cmat(:, :)
+    character, intent(in), optional :: side
+    character, intent(in), optional :: uplo
+    real(wp), intent(in), optional :: alpha
+    real(wp), intent(in), optional :: beta
+
+    character :: lra, ula
+    real(wp) :: a, b
+    integer(ik) :: m, n, lda, ldb, ldc
+
+    a = 1.0_wp
+    if (present(alpha)) a = alpha
+    b = 0.0_wp
+    if (present(beta)) b = beta
+    lra = 'l'
+    if (present(side)) lra = side
+    ula = 'u'
+    if (present(uplo)) ula = uplo
+    lda = max(1, size(amat, 1))
+    ldb = max(1, size(bmat, 1))
+    ldc = max(1, size(cmat, 1))
+    m = size(cmat, 1)
+    n = size(cmat, 2)
+    call blas_symm(lra, ula, m, n, a, amat, lda, bmat, ldb, b, cmat, ldc)
+  end subroutine blas_symm_r${wp}$
+
+  pure subroutine blas_symm_c${wp}$(amat, bmat, cmat, side, uplo, alpha, beta)
+    integer, parameter :: wp = ${wp}$
+    complex(wp), contiguous, intent(in) :: amat(:, :)
+    complex(wp), contiguous, intent(in) :: bmat(:, :)
+    complex(wp), contiguous, intent(inout) :: cmat(:, :)
+    character, intent(in), optional :: side
+    character, intent(in), optional :: uplo
+    complex(wp), intent(in), optional :: alpha
+    complex(wp), intent(in), optional :: beta
+
+    character :: lra, ula
+    complex(wp) :: a, b
+    integer(ik) :: m, n, lda, ldb, ldc
+
+    a = 1.0_wp
+    if (present(alpha)) a = alpha
+    b = 0.0_wp
+    if (present(beta)) b = beta
+    lra = 'l'
+    if (present(side)) lra = side
+    ula = 'u'
+    if (present(uplo)) ula = uplo
+    lda = max(1, size(amat, 1))
+    ldb = max(1, size(bmat, 1))
+    ldc = max(1, size(cmat, 1))
+    m = size(cmat, 1)
+    n = size(cmat, 2)
+    call blas_symm(lra, ula, m, n, a, amat, lda, bmat, ldb, b, cmat, ldc)
+  end subroutine blas_symm_c${wp}$
+
+  pure subroutine blas_hemm_c${wp}$(amat, bmat, cmat, side, uplo, alpha, beta)
+    integer, parameter :: wp = ${wp}$
+    complex(wp), contiguous, intent(in) :: amat(:, :)
+    complex(wp), contiguous, intent(in) :: bmat(:, :)
+    complex(wp), contiguous, intent(inout) :: cmat(:, :)
+    character, intent(in), optional :: side
+    character, intent(in), optional :: uplo
+    complex(wp), intent(in), optional :: alpha
+    complex(wp), intent(in), optional :: beta
+
+    character :: lra, ula
+    complex(wp) :: a, b
+    integer(ik) :: m, n, lda, ldb, ldc
+
+    a = 1.0_wp
+    if (present(alpha)) a = alpha
+    b = 0.0_wp
+    if (present(beta)) b = beta
+    lra = 'l'
+    if (present(side)) lra = side
+    ula = 'u'
+    if (present(uplo)) ula = uplo
+    lda = max(1, size(amat, 1))
+    ldb = max(1, size(bmat, 1))
+    ldc = max(1, size(cmat, 1))
+    m = size(cmat, 1)
+    n = size(cmat, 2)
+    call blas_hemm(lra, ula, m, n, a, amat, lda, bmat, ldb, b, cmat, ldc)
+  end subroutine blas_hemm_c${wp}$
+#:endfor
+
+#:for wp in BLAS_KIND
+  pure subroutine blas_syrk_r${wp}$(amat, cmat, uplo, trans, alpha, beta)
+    integer, parameter :: wp = ${wp}$
+    real(wp), contiguous, intent(in) :: amat(:, :)
+    real(wp), contiguous, intent(inout) :: cmat(:, :)
+    character, intent(in), optional :: uplo
+    character, intent(in), optional :: trans
+    real(wp), intent(in), optional :: alpha
+    real(wp), intent(in), optional :: beta
+
+    character :: ula, tra
+    real(wp) :: a, b
+    integer(ik) :: n, k, lda, ldc
+
+    a = 1.0_wp
+    if (present(alpha)) a = alpha
+    b = 0.0_wp
+    if (present(beta)) b = beta
+    tra = 'n'
+    if (present(trans)) tra = trans
+    ula = 'u'
+    if (present(uplo)) ula = uplo
+    if ((tra == 'n'.or.tra == 'N')) then
+      k = size(amat, 2)
+    else
+      k = size(amat, 1)
+    end if
+    lda = max(1, size(amat, 1))
+    ldc = max(1, size(cmat, 1))
+    n = size(cmat, 2)
+    call blas_syrk(ula, tra, n, k, a, amat, lda, b, cmat, ldc)
+  end subroutine blas_syrk_r${wp}$
+
+  pure subroutine blas_syrk_c${wp}$(amat, cmat, uplo, trans, alpha, beta)
+    integer, parameter :: wp = ${wp}$
+    complex(wp), contiguous, intent(in) :: amat(:, :)
+    complex(wp), contiguous, intent(inout) :: cmat(:, :)
+    character, intent(in), optional :: uplo
+    character, intent(in), optional :: trans
+    complex(wp), intent(in), optional :: alpha
+    complex(wp), intent(in), optional :: beta
+
+    character :: ula, tra
+    complex(wp) :: a, b
+    integer(ik) :: n, k, lda, ldc
+
+    a = 1.0_wp
+    if (present(alpha)) a = alpha
+    b = 0.0_wp
+    if (present(beta)) b = beta
+    tra = 'n'
+    if (present(trans)) tra = trans
+    ula = 'u'
+    if (present(uplo)) ula = uplo
+    if ((tra == 'n'.or.tra == 'N')) then
+      k = size(amat, 2)
+    else
+      k = size(amat, 1)
+    end if
+    lda = max(1, size(amat, 1))
+    ldc = max(1, size(cmat, 1))
+    n = size(cmat, 2)
+    call blas_syrk(ula, tra, n, k, a, amat, lda, b, cmat, ldc)
+  end subroutine blas_syrk_c${wp}$
+
+  pure subroutine blas_herk_c${wp}$(amat, cmat, uplo, trans, alpha, beta)
+    integer, parameter :: wp = ${wp}$
+    complex(wp), contiguous, intent(in) :: amat(:, :)
+    complex(wp), contiguous, intent(inout) :: cmat(:, :)
+    character, intent(in), optional :: uplo
+    character, intent(in), optional :: trans
+    real(wp), intent(in), optional :: alpha
+    real(wp), intent(in), optional :: beta
+
+    character :: ula, tra
+    real(wp) :: a, b
+    integer(ik) :: n, k, lda, ldc
+
+    a = 1.0_wp
+    if (present(alpha)) a = alpha
+    b = 0.0_wp
+    if (present(beta)) b = beta
+    tra = 'n'
+    if (present(trans)) tra = trans
+    ula = 'u'
+    if (present(uplo)) ula = uplo
+    if ((tra == 'n'.or.tra == 'N')) then
+      k = size(amat, 2)
+    else
+      k = size(amat, 1)
+    end if
+    lda = max(1, size(amat, 1))
+    ldc = max(1, size(cmat, 1))
+    n = size(cmat, 2)
+    call blas_herk(ula, tra, n, k, a, amat, lda, b, cmat, ldc)
+  end subroutine blas_herk_c${wp}$
+#:endfor
+
+#:for wp in BLAS_KIND
+  pure subroutine blas_syr2k_r${wp}$(amat, bmat, cmat, uplo, trans, alpha, beta)
+    integer, parameter :: wp = ${wp}$
+    real(wp), contiguous, intent(in) :: amat(:, :)
+    real(wp), contiguous, intent(in) :: bmat(:, :)
+    real(wp), contiguous, intent(inout) :: cmat(:, :)
+    character, intent(in), optional :: uplo
+    character, intent(in), optional :: trans
+    real(wp), intent(in), optional :: alpha
+    real(wp), intent(in), optional :: beta
+
+    character :: ula, tra
+    real(wp) :: a, b
+    integer(ik) :: n, k, lda, ldb, ldc
+
+    a = 1.0_wp
+    if (present(alpha)) a = alpha
+    b = 0.0_wp
+    if (present(beta)) b = beta
+    tra = 'n'
+    if (present(trans)) tra = trans
+    ula = 'u'
+    if (present(uplo)) ula = uplo
+    if ((tra == 'n'.or.tra == 'N')) then
+      k = size(amat, 2)
+    else
+      k = size(amat, 1)
+    end if
+    lda = max(1, size(amat, 1))
+    ldb = max(1, size(bmat, 1))
+    ldc = max(1, size(cmat, 1))
+    n = size(cmat, 2)
+    call blas_syr2k(ula, tra, n, k, a, amat, lda, bmat, ldb, b, cmat, ldc)
+  end subroutine blas_syr2k_r${wp}$
+
+  pure subroutine blas_syr2k_c${wp}$(amat, bmat, cmat, uplo, trans, alpha, beta)
+    integer, parameter :: wp = ${wp}$
+    complex(wp), contiguous, intent(in) :: amat(:, :)
+    complex(wp), contiguous, intent(in) :: bmat(:, :)
+    complex(wp), contiguous, intent(inout) :: cmat(:, :)
+    character, intent(in), optional :: uplo
+    character, intent(in), optional :: trans
+    complex(wp), intent(in), optional :: alpha
+    complex(wp), intent(in), optional :: beta
+
+    character :: ula, tra
+    complex(wp) :: a, b
+    integer(ik) :: n, k, lda, ldb, ldc
+
+    a = 1.0_wp
+    if (present(alpha)) a = alpha
+    b = 0.0_wp
+    if (present(beta)) b = beta
+    tra = 'n'
+    if (present(trans)) tra = trans
+    ula = 'u'
+    if (present(uplo)) ula = uplo
+    if ((tra == 'n'.or.tra == 'N')) then
+      k = size(amat, 2)
+    else
+      k = size(amat, 1)
+    end if
+    lda = max(1, size(amat, 1))
+    ldb = max(1, size(bmat, 1))
+    ldc = max(1, size(cmat, 1))
+    n = size(cmat, 2)
+    call blas_syr2k(ula, tra, n, k, a, amat, lda, bmat, ldb, b, cmat, ldc)
+  end subroutine blas_syr2k_c${wp}$
+
+  pure subroutine blas_her2k_c${wp}$(amat, bmat, cmat, uplo, trans, alpha, beta)
+    integer, parameter :: wp = ${wp}$
+    complex(wp), contiguous, intent(in) :: amat(:, :)
+    complex(wp), contiguous, intent(in) :: bmat(:, :)
+    complex(wp), contiguous, intent(inout) :: cmat(:, :)
+    character, intent(in), optional :: uplo
+    character, intent(in), optional :: trans
+    complex(wp), intent(in), optional :: alpha
+    real(wp), intent(in), optional :: beta
+
+    character :: ula, tra
+    complex(wp) :: a
+    real(wp) :: b
+    integer(ik) :: n, k, lda, ldb, ldc
+
+    a = 1.0_wp
+    if (present(alpha)) a = alpha
+    b = 0.0_wp
+    if (present(beta)) b = beta
+    tra = 'n'
+    if (present(trans)) tra = trans
+    ula = 'u'
+    if (present(uplo)) ula = uplo
+    if ((tra == 'n'.or.tra == 'N')) then
+      k = size(amat, 2)
+    else
+      k = size(amat, 1)
+    end if
+    lda = max(1, size(amat, 1))
+    ldb = max(1, size(bmat, 1))
+    ldc = max(1, size(cmat, 1))
+    n = size(cmat, 2)
+    call blas_her2k(ula, tra, n, k, a, amat, lda, bmat, ldb, b, cmat, ldc)
+  end subroutine blas_her2k_c${wp}$
+#:endfor
+
+#:for wp in BLAS_KIND
+  pure subroutine blas_trsm_r${wp}$(amat, bmat, side, uplo, transa, diag, alpha)
+    integer, parameter :: wp = ${wp}$
+    real(wp), contiguous, intent(in) :: amat(:, :)
+    real(wp), contiguous, intent(inout) :: bmat(:, :)
+    character, intent(in), optional :: side
+    character, intent(in), optional :: uplo
+    character, intent(in), optional :: transa
+    character, intent(in), optional :: diag
+    real(wp), intent(in), optional :: alpha
+
+    character :: lra, ula, tra, dia
+    real(wp) :: a
+    integer(ik) :: m, n, lda, ldb
+
+    a = 1.0_wp
+    dia = 'n'
+    lra = 'l'
+    tra = 'n'
+    ula = 'u'
+    if (present(alpha)) a = alpha
+    if (present(diag)) dia = diag
+    if (present(side)) lra = side
+    if (present(transa)) tra = transa
+    if (present(uplo)) ula = uplo
+    lda = max(1, size(amat, 1))
+    ldb = max(1, size(bmat, 1))
+    m = size(bmat, 1)
+    n = size(bmat, 2)
+    call blas_trsm(lra, ula, tra, dia, m, n, a, amat, lda, bmat, ldb)
+  end subroutine blas_trsm_r${wp}$
+
+  pure subroutine blas_trsm_c${wp}$(amat, bmat, side, uplo, transa, diag, alpha)
+    integer, parameter :: wp = ${wp}$
+    complex(wp), contiguous, intent(in) :: amat(:, :)
+    complex(wp), contiguous, intent(inout) :: bmat(:, :)
+    character, intent(in), optional :: side
+    character, intent(in), optional :: uplo
+    character, intent(in), optional :: transa
+    character, intent(in), optional :: diag
+    complex(wp), intent(in), optional :: alpha
+
+    character :: lra, ula, tra, dia
+    complex(wp) :: a
+    integer(ik) :: m, n, lda, ldb
+
+    a = 1.0_wp
+    dia = 'n'
+    lra = 'l'
+    tra = 'n'
+    ula = 'u'
+    if (present(alpha)) a = alpha
+    if (present(diag)) dia = diag
+    if (present(side)) lra = side
+    if (present(transa)) tra = transa
+    if (present(uplo)) ula = uplo
+    lda = max(1, size(amat, 1))
+    ldb = max(1, size(bmat, 1))
+    m = size(bmat, 1)
+    n = size(bmat, 2)
+    call blas_trsm(lra, ula, tra, dia, m, n, a, amat, lda, bmat, ldb)
+  end subroutine blas_trsm_c${wp}$
+#:endfor
+
+#:for wp in BLAS_KIND
+  pure subroutine blas_trmm_r${wp}$(amat, bmat, side, uplo, transa, diag, alpha)
+    integer, parameter :: wp = ${wp}$
+    real(wp), contiguous, intent(in) :: amat(:, :)
+    real(wp), contiguous, intent(inout) :: bmat(:, :)
+    character, intent(in), optional :: side
+    character, intent(in), optional :: uplo
+    character, intent(in), optional :: transa
+    character, intent(in), optional :: diag
+    real(wp), intent(in), optional :: alpha
+
+    character :: lra, ula, tra, dia
+    real(wp) :: a
+    integer(ik) :: m, n, lda, ldb
+
+    a = 1.0_wp
+    dia = 'n'
+    lra = 'l'
+    tra = 'n'
+    ula = 'u'
+    if (present(alpha)) a = alpha
+    if (present(diag)) dia = diag
+    if (present(side)) lra = side
+    if (present(transa)) tra = transa
+    if (present(uplo)) ula = uplo
+    lda = max(1, size(amat, 1))
+    ldb = max(1, size(bmat, 1))
+    m = size(bmat, 1)
+    n = size(bmat, 2)
+    call blas_trmm(lra, ula, tra, dia, m, n, a, amat, lda, bmat, ldb)
+  end subroutine blas_trmm_r${wp}$
+
+  pure subroutine blas_trmm_c${wp}$(amat, bmat, side, uplo, transa, diag, alpha)
+    integer, parameter :: wp = ${wp}$
+    complex(wp), contiguous, intent(in) :: amat(:, :)
+    complex(wp), contiguous, intent(inout) :: bmat(:, :)
+    character, intent(in), optional :: side
+    character, intent(in), optional :: uplo
+    character, intent(in), optional :: transa
+    character, intent(in), optional :: diag
+    complex(wp), intent(in), optional :: alpha
+
+    character :: lra, ula, tra, dia
+    complex(wp) :: a
+    integer(ik) :: m, n, lda, ldb
+
+    a = 1.0_wp
+    dia = 'n'
+    lra = 'l'
+    tra = 'n'
+    ula = 'u'
+    if (present(alpha)) a = alpha
+    if (present(diag)) dia = diag
+    if (present(side)) lra = side
+    if (present(transa)) tra = transa
+    if (present(uplo)) ula = uplo
+    lda = max(1, size(amat, 1))
+    ldb = max(1, size(bmat, 1))
+    m = size(bmat, 1)
+    n = size(bmat, 2)
+    call blas_trmm(lra, ula, tra, dia, m, n, a, amat, lda, bmat, ldb)
+  end subroutine blas_trmm_c${wp}$
+#:endfor
+
+end module stdlib_linalg_blas3

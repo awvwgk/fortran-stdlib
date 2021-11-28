@@ -43,6 +43,10 @@ set(fppFiles
     stdlib_version.fypp
 )
 
+if(NOT BLAS_FOUND AND WITH_BLAS)
+  find_package("BLAS")
+endif()
+
 
 # Custom preprocessor flags
 if(DEFINED CMAKE_MAXIMUM_RANK)
@@ -60,7 +64,9 @@ list(
   "-DPROJECT_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}"
   "-DPROJECT_VERSION_MINOR=${PROJECT_VERSION_MINOR}"
   "-DPROJECT_VERSION_PATCH=${PROJECT_VERSION_PATCH}"
+  "-DWITH_BLAS=$<BOOL:${WITH_BLAS}>"
 )
+add_subdirectory(stdlib_linalg)
 
 fypp_f90("${fyppFlags}" "${fppFiles}" outFiles)
 
@@ -76,6 +82,11 @@ set(SRC
 )
 
 add_library(${PROJECT_NAME} ${SRC})
+target_link_libraries(
+  ${PROJECT_NAME}
+  PUBLIC
+  $<$<BOOL:${WITH_BLAS}>:${BLAS_LIBRARIES}>
+)
 
 set(LIB_MOD_DIR ${CMAKE_CURRENT_BINARY_DIR}/mod_files/)
 # We need the module directory before we finish the configure stage since the

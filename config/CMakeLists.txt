@@ -1,5 +1,7 @@
 # SPDX-Identifier: MIT
 
+option(WITH_BLAS "Compile with support for BLAS modules" ON)
+
 if(NOT DEFINED CMAKE_INSTALL_MODULEDIR)
   set(
     CMAKE_INSTALL_MODULEDIR

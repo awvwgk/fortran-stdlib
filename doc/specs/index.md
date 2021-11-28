@@ -17,6 +17,7 @@ This is and index/directory of the specifications (specs) for each new module/fe
  - [IO](./stdlib_io.html) - Input/output helper & convenience
  - [kinds](./stdlib_kinds.html) - Kind parameters
  - [linalg](./stdlib_linalg.html) - Linear Algebra
+ - [linalg\_blas](./stdlib_linalg_blas.html) - Interface to BLAS library
  - [logger](./stdlib_logger.html) - Runtime logging system
  - [math](./stdlib_math.html) - General purpose mathematical functions
  - [optval](./stdlib_optval.html) - Fallback value for optional arguments
