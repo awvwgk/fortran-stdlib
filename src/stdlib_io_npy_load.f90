@@ -6,10 +6,11 @@ submodule (stdlib_io_npy) stdlib_io_npy_load
 
 contains
 
-    module subroutine load_npy_rsp_1(filename, array, iostat)
+    module subroutine load_npy_rsp_1(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         real(sp), allocatable, intent(out) :: array(:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rsp
         integer, parameter :: rank = 1
@@ -67,6 +68,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -81,10 +84,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rsp_1
-    module subroutine load_npy_rsp_2(filename, array, iostat)
+    module subroutine load_npy_rsp_2(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         real(sp), allocatable, intent(out) :: array(:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rsp
         integer, parameter :: rank = 2
@@ -142,6 +146,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -157,10 +163,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rsp_2
-    module subroutine load_npy_rsp_3(filename, array, iostat)
+    module subroutine load_npy_rsp_3(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         real(sp), allocatable, intent(out) :: array(:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rsp
         integer, parameter :: rank = 3
@@ -218,6 +225,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -234,10 +243,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rsp_3
-    module subroutine load_npy_rsp_4(filename, array, iostat)
+    module subroutine load_npy_rsp_4(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         real(sp), allocatable, intent(out) :: array(:,:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rsp
         integer, parameter :: rank = 4
@@ -295,6 +305,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -312,10 +324,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rsp_4
-    module subroutine load_npy_rdp_1(filename, array, iostat)
+    module subroutine load_npy_rdp_1(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         real(dp), allocatable, intent(out) :: array(:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rdp
         integer, parameter :: rank = 1
@@ -373,6 +386,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -387,10 +402,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rdp_1
-    module subroutine load_npy_rdp_2(filename, array, iostat)
+    module subroutine load_npy_rdp_2(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         real(dp), allocatable, intent(out) :: array(:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rdp
         integer, parameter :: rank = 2
@@ -448,6 +464,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -463,10 +481,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rdp_2
-    module subroutine load_npy_rdp_3(filename, array, iostat)
+    module subroutine load_npy_rdp_3(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         real(dp), allocatable, intent(out) :: array(:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rdp
         integer, parameter :: rank = 3
@@ -524,6 +543,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -540,10 +561,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rdp_3
-    module subroutine load_npy_rdp_4(filename, array, iostat)
+    module subroutine load_npy_rdp_4(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         real(dp), allocatable, intent(out) :: array(:,:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rdp
         integer, parameter :: rank = 4
@@ -601,6 +623,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -618,10 +642,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rdp_4
-    module subroutine load_npy_iint8_1(filename, array, iostat)
+    module subroutine load_npy_iint8_1(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int8), allocatable, intent(out) :: array(:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint8
         integer, parameter :: rank = 1
@@ -679,6 +704,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -693,10 +720,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint8_1
-    module subroutine load_npy_iint8_2(filename, array, iostat)
+    module subroutine load_npy_iint8_2(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int8), allocatable, intent(out) :: array(:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint8
         integer, parameter :: rank = 2
@@ -754,6 +782,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -769,10 +799,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint8_2
-    module subroutine load_npy_iint8_3(filename, array, iostat)
+    module subroutine load_npy_iint8_3(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int8), allocatable, intent(out) :: array(:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint8
         integer, parameter :: rank = 3
@@ -830,6 +861,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -846,10 +879,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint8_3
-    module subroutine load_npy_iint8_4(filename, array, iostat)
+    module subroutine load_npy_iint8_4(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int8), allocatable, intent(out) :: array(:,:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint8
         integer, parameter :: rank = 4
@@ -907,6 +941,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -924,10 +960,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint8_4
-    module subroutine load_npy_iint16_1(filename, array, iostat)
+    module subroutine load_npy_iint16_1(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int16), allocatable, intent(out) :: array(:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint16
         integer, parameter :: rank = 1
@@ -985,6 +1022,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -999,10 +1038,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint16_1
-    module subroutine load_npy_iint16_2(filename, array, iostat)
+    module subroutine load_npy_iint16_2(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int16), allocatable, intent(out) :: array(:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint16
         integer, parameter :: rank = 2
@@ -1060,6 +1100,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1075,10 +1117,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint16_2
-    module subroutine load_npy_iint16_3(filename, array, iostat)
+    module subroutine load_npy_iint16_3(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int16), allocatable, intent(out) :: array(:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint16
         integer, parameter :: rank = 3
@@ -1136,6 +1179,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1152,10 +1197,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint16_3
-    module subroutine load_npy_iint16_4(filename, array, iostat)
+    module subroutine load_npy_iint16_4(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int16), allocatable, intent(out) :: array(:,:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint16
         integer, parameter :: rank = 4
@@ -1213,6 +1259,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1230,10 +1278,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint16_4
-    module subroutine load_npy_iint32_1(filename, array, iostat)
+    module subroutine load_npy_iint32_1(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int32), allocatable, intent(out) :: array(:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint32
         integer, parameter :: rank = 1
@@ -1291,6 +1340,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1305,10 +1356,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint32_1
-    module subroutine load_npy_iint32_2(filename, array, iostat)
+    module subroutine load_npy_iint32_2(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int32), allocatable, intent(out) :: array(:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint32
         integer, parameter :: rank = 2
@@ -1366,6 +1418,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1381,10 +1435,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint32_2
-    module subroutine load_npy_iint32_3(filename, array, iostat)
+    module subroutine load_npy_iint32_3(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int32), allocatable, intent(out) :: array(:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint32
         integer, parameter :: rank = 3
@@ -1442,6 +1497,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1458,10 +1515,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint32_3
-    module subroutine load_npy_iint32_4(filename, array, iostat)
+    module subroutine load_npy_iint32_4(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int32), allocatable, intent(out) :: array(:,:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint32
         integer, parameter :: rank = 4
@@ -1519,6 +1577,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1536,10 +1596,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint32_4
-    module subroutine load_npy_iint64_1(filename, array, iostat)
+    module subroutine load_npy_iint64_1(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int64), allocatable, intent(out) :: array(:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint64
         integer, parameter :: rank = 1
@@ -1597,6 +1658,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1611,10 +1674,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint64_1
-    module subroutine load_npy_iint64_2(filename, array, iostat)
+    module subroutine load_npy_iint64_2(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int64), allocatable, intent(out) :: array(:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint64
         integer, parameter :: rank = 2
@@ -1672,6 +1736,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1687,10 +1753,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint64_2
-    module subroutine load_npy_iint64_3(filename, array, iostat)
+    module subroutine load_npy_iint64_3(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int64), allocatable, intent(out) :: array(:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint64
         integer, parameter :: rank = 3
@@ -1748,6 +1815,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1764,10 +1833,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint64_3
-    module subroutine load_npy_iint64_4(filename, array, iostat)
+    module subroutine load_npy_iint64_4(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         integer(int64), allocatable, intent(out) :: array(:,:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint64
         integer, parameter :: rank = 4
@@ -1825,6 +1895,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1842,10 +1914,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint64_4
-    module subroutine load_npy_csp_1(filename, array, iostat)
+    module subroutine load_npy_csp_1(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         complex(sp), allocatable, intent(out) :: array(:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_csp
         integer, parameter :: rank = 1
@@ -1903,6 +1976,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1917,10 +1992,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_csp_1
-    module subroutine load_npy_csp_2(filename, array, iostat)
+    module subroutine load_npy_csp_2(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         complex(sp), allocatable, intent(out) :: array(:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_csp
         integer, parameter :: rank = 2
@@ -1978,6 +2054,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -1993,10 +2071,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_csp_2
-    module subroutine load_npy_csp_3(filename, array, iostat)
+    module subroutine load_npy_csp_3(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         complex(sp), allocatable, intent(out) :: array(:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_csp
         integer, parameter :: rank = 3
@@ -2054,6 +2133,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -2070,10 +2151,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_csp_3
-    module subroutine load_npy_csp_4(filename, array, iostat)
+    module subroutine load_npy_csp_4(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         complex(sp), allocatable, intent(out) :: array(:,:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_csp
         integer, parameter :: rank = 4
@@ -2131,6 +2213,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -2148,10 +2232,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_csp_4
-    module subroutine load_npy_cdp_1(filename, array, iostat)
+    module subroutine load_npy_cdp_1(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         complex(dp), allocatable, intent(out) :: array(:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_cdp
         integer, parameter :: rank = 1
@@ -2209,6 +2294,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -2223,10 +2310,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_cdp_1
-    module subroutine load_npy_cdp_2(filename, array, iostat)
+    module subroutine load_npy_cdp_2(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         complex(dp), allocatable, intent(out) :: array(:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_cdp
         integer, parameter :: rank = 2
@@ -2284,6 +2372,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -2299,10 +2389,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_cdp_2
-    module subroutine load_npy_cdp_3(filename, array, iostat)
+    module subroutine load_npy_cdp_3(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         complex(dp), allocatable, intent(out) :: array(:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_cdp
         integer, parameter :: rank = 3
@@ -2360,6 +2451,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
@@ -2376,10 +2469,11 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_cdp_3
-    module subroutine load_npy_cdp_4(filename, array, iostat)
+    module subroutine load_npy_cdp_4(filename, array, iostat, iomsg)
         character(len=*), intent(in) :: filename
         complex(dp), allocatable, intent(out) :: array(:,:,:,:)
         integer, intent(out), optional :: iostat
+        character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_cdp
         integer, parameter :: rank = 4
@@ -2437,6 +2531,8 @@ contains
                 call error_stop("Failed to read array from file '"//filename//"'")
             end if
         end if
+
+        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
     subroutine allocator(array, vshape, stat)
