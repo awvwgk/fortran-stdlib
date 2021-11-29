@@ -1,15 +1,23 @@
 ! SPDX-Identifier: MIT
 
 
+!> Implementation of loading npy files into multidimensional arrays
 submodule (stdlib_io_npy) stdlib_io_npy_load
+    use stdlib_error, only : error_stop
+    use stdlib_strings, only : to_string, starts_with
     implicit none
 
 contains
 
+    !> Load a 1-dimensional array from a npy file
     module subroutine load_npy_rsp_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(sp), allocatable, intent(out) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rsp
@@ -20,17 +28,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -72,9 +74,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         real(sp), allocatable, intent(out) :: array(:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -84,10 +90,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rsp_1
+    !> Load a 2-dimensional array from a npy file
     module subroutine load_npy_rsp_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(sp), allocatable, intent(out) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rsp
@@ -98,17 +109,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -150,9 +155,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         real(sp), allocatable, intent(out) :: array(:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -163,10 +172,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rsp_2
+    !> Load a 3-dimensional array from a npy file
     module subroutine load_npy_rsp_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(sp), allocatable, intent(out) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rsp
@@ -177,17 +191,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -229,9 +237,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         real(sp), allocatable, intent(out) :: array(:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -243,10 +255,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rsp_3
+    !> Load a 4-dimensional array from a npy file
     module subroutine load_npy_rsp_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(sp), allocatable, intent(out) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rsp
@@ -257,17 +274,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -309,9 +320,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         real(sp), allocatable, intent(out) :: array(:,:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -324,10 +339,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rsp_4
+    !> Load a 1-dimensional array from a npy file
     module subroutine load_npy_rdp_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(dp), allocatable, intent(out) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rdp
@@ -338,17 +358,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -390,9 +404,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         real(dp), allocatable, intent(out) :: array(:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -402,10 +420,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rdp_1
+    !> Load a 2-dimensional array from a npy file
     module subroutine load_npy_rdp_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(dp), allocatable, intent(out) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rdp
@@ -416,17 +439,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -468,9 +485,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         real(dp), allocatable, intent(out) :: array(:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -481,10 +502,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rdp_2
+    !> Load a 3-dimensional array from a npy file
     module subroutine load_npy_rdp_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(dp), allocatable, intent(out) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rdp
@@ -495,17 +521,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -547,9 +567,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         real(dp), allocatable, intent(out) :: array(:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -561,10 +585,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rdp_3
+    !> Load a 4-dimensional array from a npy file
     module subroutine load_npy_rdp_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(dp), allocatable, intent(out) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_rdp
@@ -575,17 +604,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -627,9 +650,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         real(dp), allocatable, intent(out) :: array(:,:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -642,10 +669,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_rdp_4
+    !> Load a 1-dimensional array from a npy file
     module subroutine load_npy_iint8_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int8), allocatable, intent(out) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint8
@@ -656,17 +688,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -708,9 +734,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int8), allocatable, intent(out) :: array(:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -720,10 +750,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint8_1
+    !> Load a 2-dimensional array from a npy file
     module subroutine load_npy_iint8_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int8), allocatable, intent(out) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint8
@@ -734,17 +769,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -786,9 +815,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int8), allocatable, intent(out) :: array(:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -799,10 +832,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint8_2
+    !> Load a 3-dimensional array from a npy file
     module subroutine load_npy_iint8_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int8), allocatable, intent(out) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint8
@@ -813,17 +851,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -865,9 +897,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int8), allocatable, intent(out) :: array(:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -879,10 +915,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint8_3
+    !> Load a 4-dimensional array from a npy file
     module subroutine load_npy_iint8_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int8), allocatable, intent(out) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint8
@@ -893,17 +934,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -945,9 +980,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int8), allocatable, intent(out) :: array(:,:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -960,10 +999,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint8_4
+    !> Load a 1-dimensional array from a npy file
     module subroutine load_npy_iint16_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int16), allocatable, intent(out) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint16
@@ -974,17 +1018,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1026,9 +1064,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int16), allocatable, intent(out) :: array(:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1038,10 +1080,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint16_1
+    !> Load a 2-dimensional array from a npy file
     module subroutine load_npy_iint16_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int16), allocatable, intent(out) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint16
@@ -1052,17 +1099,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1104,9 +1145,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int16), allocatable, intent(out) :: array(:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1117,10 +1162,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint16_2
+    !> Load a 3-dimensional array from a npy file
     module subroutine load_npy_iint16_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int16), allocatable, intent(out) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint16
@@ -1131,17 +1181,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1183,9 +1227,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int16), allocatable, intent(out) :: array(:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1197,10 +1245,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint16_3
+    !> Load a 4-dimensional array from a npy file
     module subroutine load_npy_iint16_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int16), allocatable, intent(out) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint16
@@ -1211,17 +1264,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1263,9 +1310,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int16), allocatable, intent(out) :: array(:,:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1278,10 +1329,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint16_4
+    !> Load a 1-dimensional array from a npy file
     module subroutine load_npy_iint32_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int32), allocatable, intent(out) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint32
@@ -1292,17 +1348,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1344,9 +1394,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int32), allocatable, intent(out) :: array(:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1356,10 +1410,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint32_1
+    !> Load a 2-dimensional array from a npy file
     module subroutine load_npy_iint32_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int32), allocatable, intent(out) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint32
@@ -1370,17 +1429,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1422,9 +1475,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int32), allocatable, intent(out) :: array(:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1435,10 +1492,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint32_2
+    !> Load a 3-dimensional array from a npy file
     module subroutine load_npy_iint32_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int32), allocatable, intent(out) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint32
@@ -1449,17 +1511,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1501,9 +1557,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int32), allocatable, intent(out) :: array(:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1515,10 +1575,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint32_3
+    !> Load a 4-dimensional array from a npy file
     module subroutine load_npy_iint32_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int32), allocatable, intent(out) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint32
@@ -1529,17 +1594,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1581,9 +1640,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int32), allocatable, intent(out) :: array(:,:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1596,10 +1659,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint32_4
+    !> Load a 1-dimensional array from a npy file
     module subroutine load_npy_iint64_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int64), allocatable, intent(out) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint64
@@ -1610,17 +1678,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1662,9 +1724,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int64), allocatable, intent(out) :: array(:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1674,10 +1740,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint64_1
+    !> Load a 2-dimensional array from a npy file
     module subroutine load_npy_iint64_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int64), allocatable, intent(out) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint64
@@ -1688,17 +1759,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1740,9 +1805,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int64), allocatable, intent(out) :: array(:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1753,10 +1822,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint64_2
+    !> Load a 3-dimensional array from a npy file
     module subroutine load_npy_iint64_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int64), allocatable, intent(out) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint64
@@ -1767,17 +1841,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1819,9 +1887,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int64), allocatable, intent(out) :: array(:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1833,10 +1905,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint64_3
+    !> Load a 4-dimensional array from a npy file
     module subroutine load_npy_iint64_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int64), allocatable, intent(out) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_iint64
@@ -1847,17 +1924,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1899,9 +1970,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         integer(int64), allocatable, intent(out) :: array(:,:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1914,10 +1989,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_iint64_4
+    !> Load a 1-dimensional array from a npy file
     module subroutine load_npy_csp_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(sp), allocatable, intent(out) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_csp
@@ -1928,17 +2008,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -1980,9 +2054,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         complex(sp), allocatable, intent(out) :: array(:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -1992,10 +2070,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_csp_1
+    !> Load a 2-dimensional array from a npy file
     module subroutine load_npy_csp_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(sp), allocatable, intent(out) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_csp
@@ -2006,17 +2089,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -2058,9 +2135,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         complex(sp), allocatable, intent(out) :: array(:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -2071,10 +2152,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_csp_2
+    !> Load a 3-dimensional array from a npy file
     module subroutine load_npy_csp_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(sp), allocatable, intent(out) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_csp
@@ -2085,17 +2171,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -2137,9 +2217,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         complex(sp), allocatable, intent(out) :: array(:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -2151,10 +2235,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_csp_3
+    !> Load a 4-dimensional array from a npy file
     module subroutine load_npy_csp_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(sp), allocatable, intent(out) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_csp
@@ -2165,17 +2254,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -2217,9 +2300,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         complex(sp), allocatable, intent(out) :: array(:,:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -2232,10 +2319,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_csp_4
+    !> Load a 1-dimensional array from a npy file
     module subroutine load_npy_cdp_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(dp), allocatable, intent(out) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_cdp
@@ -2246,17 +2338,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -2298,9 +2384,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         complex(dp), allocatable, intent(out) :: array(:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -2310,10 +2400,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_cdp_1
+    !> Load a 2-dimensional array from a npy file
     module subroutine load_npy_cdp_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(dp), allocatable, intent(out) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_cdp
@@ -2324,17 +2419,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -2376,9 +2465,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         complex(dp), allocatable, intent(out) :: array(:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -2389,10 +2482,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_cdp_2
+    !> Load a 3-dimensional array from a npy file
     module subroutine load_npy_cdp_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(dp), allocatable, intent(out) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_cdp
@@ -2403,17 +2501,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -2455,9 +2547,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         complex(dp), allocatable, intent(out) :: array(:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -2469,10 +2565,15 @@ contains
     end subroutine allocator
 
     end subroutine load_npy_cdp_3
+    !> Load a 4-dimensional array from a npy file
     module subroutine load_npy_cdp_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(dp), allocatable, intent(out) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
         character(len=*), parameter :: vtype = type_cdp
@@ -2483,17 +2584,11 @@ contains
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         catch: block
-            integer :: i
             character(len=:), allocatable :: this_type
-            logical :: fortran_order
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, fortran_order, vshape, stat, msg)
+            call get_descriptor(io, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
-
-            if (.not.fortran_order) then
-                vshape = [(vshape(i), i = size(vshape), 1, -1)]
-            end if
 
             if (this_type /= vtype) then
                 stat = 1
@@ -2535,9 +2630,13 @@ contains
         if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
     contains
 
+    !> Wrapped intrinsic allocate to create an allocation from a shape array
     subroutine allocator(array, vshape, stat)
+        !> Instance of the array to be allocated
         complex(dp), allocatable, intent(out) :: array(:,:,:,:)
+        !> Dimensions to allocate for
         integer, intent(in) :: vshape(:)
+        !> Status of allocate
         integer, intent(out) :: stat
 
         allocate(array( &
@@ -2552,18 +2651,24 @@ contains
     end subroutine load_npy_cdp_4
 
 
-    subroutine get_descriptor(io, vtype, fortran_order, vshape, stat, msg)
+    !> Read the npy header from a binary file and retrieve the descriptor string.
+    subroutine get_descriptor(io, vtype, vshape, stat, msg)
+        !> Unformatted, stream accessed unit
         integer, intent(in) :: io
+        !> Type of data saved in npy file
         character(len=:), allocatable, intent(out) :: vtype
-        logical, intent(out) :: fortran_order
+        !> Shape descriptor of the
         integer, allocatable, intent(out) :: vshape(:)
+        !> Status of operation
         integer, intent(out) :: stat
+        !> Associated error message in case of non-zero status
         character(len=:), allocatable, intent(out) :: msg
 
-        integer :: major, header_len
+        integer :: major, header_len, i
         character(len=:), allocatable :: dict
         character(len=8) :: header
         character :: buf(4)
+        logical :: fortran_order
 
         read(io, iostat=stat) header
         if (stat /= 0) return
@@ -2595,7 +2700,7 @@ contains
             return
         end if
 
-        if (scan(dict, char(0)) > 0) then
+        if (scan(dict, achar(0)) > 0) then
             stat = 1
             msg = "Nul byte not allowed in descriptor string"
             return
@@ -2604,13 +2709,22 @@ contains
         call parse_descriptor(trim(dict(:len(dict)-1)), vtype, fortran_order, vshape, &
             & stat, msg)
         if (stat /= 0) return
+
+        if (.not.fortran_order) then
+            vshape = [(vshape(i), i = size(vshape), 1, -1)]
+        end if
     end subroutine get_descriptor
 
 
+    !> Parse the first eight bytes of the npy header to verify the data
     subroutine parse_header(header, major, stat, msg)
+        !> Header of the binary file
         character(len=*), intent(in) :: header
+        !> Major version of the npy format
         integer, intent(out) :: major
+        !> Status of operation
         integer, intent(out) :: stat
+        !> Associated error message in case of non-zero status
         character(len=:), allocatable, intent(out) :: msg
 
         integer :: minor
@@ -2644,12 +2758,20 @@ contains
         end if
     end subroutine parse_header
 
+    !> Parse the descriptor in the npy header. This routine implements a minimal
+    !> non-recursive parser for serialized Python dictionaries.
     subroutine parse_descriptor(input, vtype, fortran_order, vshape, stat, msg)
+        !> Input string to parse as descriptor
         character(len=*), intent(in) :: input
+        !> Type of the data stored, retrieved from field `descr`
         character(len=:), allocatable, intent(out) :: vtype
+        !> Whether the data is in left layout, retrieved from field `fortran_order`
         logical, intent(out) :: fortran_order
+        !> Shape of the stored data, retrieved from field `shape`
         integer, allocatable, intent(out) :: vshape(:)
+        !> Status of operation
         integer, intent(out) :: stat
+        !> Associated error message in case of non-zero status
         character(len=:), allocatable, intent(out) :: msg
 
         enum, bind(c)
@@ -2720,7 +2842,7 @@ contains
                         stat = 1
                         msg = "Duplicate shape"
                     end if
-                    call parse_tuple(input, pos, token, vshape, stat)
+                    call parse_tuple(input, pos, vshape, stat)
 
                     has_shape = .true.
 
@@ -2752,13 +2874,18 @@ contains
 
     contains
 
-    subroutine parse_tuple(input, pos, token, tuple, stat)
+    !> Parse a tuple of integers into an array of integers
+    subroutine parse_tuple(input, pos, tuple, stat)
+        !> Input string to parse
         character(len=*), intent(in) :: input
+        !> Offset in the input, will be advanced after reading
         integer, intent(inout) :: pos
-        type(token_type), intent(out) :: token
+        !> Array representing tuple of integers
         integer, allocatable, intent(out) :: tuple(:)
+        !> Status of operation
         integer, intent(out) :: stat
 
+        type(token_type) :: token
         integer :: last, itmp
 
         allocate(tuple(0), stat=stat)
@@ -2799,11 +2926,17 @@ contains
         end do
     end subroutine parse_tuple
 
+    !> Get the next allowed token
     subroutine next_token(input, pos, token, allowed_token, stat)
+        !> Input string to parse
         character(len=*), intent(in) :: input
+        !> Current offset in the input string
         integer, intent(inout) :: pos
+        !> Last token parsed
         type(token_type), intent(out) :: token
+        !> Tokens allowed in the current context
         integer, intent(in) :: allowed_token(:)
+        !> Status of operation
         integer, intent(out) :: stat
 
         stat = pos
@@ -2821,9 +2954,13 @@ contains
         end do
     end subroutine next_token
 
+    !> Tokenize input string
     subroutine get_token(input, pos, token)
+        !> Input strin to tokenize
         character(len=*), intent(in) :: input
+        !> Offset in input string, will be advanced
         integer, intent(inout) :: pos
+        !> Returned token from the next position
         type(token_type), intent(out) :: token
 
         character :: quote
@@ -2847,8 +2984,8 @@ contains
             token%first = pos
             do while (pos <= len(input))
                 if (.not.any(input(pos:pos) == ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"])) then
-                    token%last = pos - 1
                     pos = pos - 1
+                    token%last = pos
                     exit
                 else
                     pos = pos + 1
@@ -2881,7 +3018,7 @@ contains
             token = token_type(pos, pos, lparen)
         case(")")
             token = token_type(pos, pos, rparen)
-        case(" ", char(10))
+        case(" ", nl)
             token = token_type(pos, pos, space)
         case default
             token = token_type(pos, pos, invalid)

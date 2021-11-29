@@ -1,7 +1,10 @@
 ! SPDX-Identifer: MIT
 
 
+!> Implementation of saving multidimensional arrays to npy files
 submodule (stdlib_io_npy) stdlib_io_npy_save
+    use stdlib_error, only : error_stop
+    use stdlib_strings, only : to_string
     implicit none
 
 contains
@@ -16,7 +19,7 @@ contains
         !> Magic string for npy format
         character(len=8) :: str
 
-        str = magic_number // magic_string // char(major) // char(minor)
+        str = magic_number // magic_string // achar(major) // achar(minor)
     end function magic_header
 
 
@@ -52,12 +55,12 @@ contains
         !> Integer value to convert to bytes
         integer, intent(in) :: val
         !> String of bytes
-        character(len=4), allocatable :: str
+        character(len=4) :: str
 
-        str = char(mod(val, 2**8)) // &
-            & char(mod(val, 2**16) / 2**8) // &
-            & char(mod(val, 2**32) / 2**16) // &
-            & char(val / 2**32)
+        str = achar(mod(val, 2**8)) // &
+            & achar(mod(val, 2**16) / 2**8) // &
+            & achar(mod(val, 2**32) / 2**16) // &
+            & achar(val / 2**32)
     end function to_bytes_i4
 
 
@@ -66,10 +69,10 @@ contains
         !> Integer value to convert to bytes
         integer, intent(in) :: val
         !> String of bytes
-        character(len=2), allocatable :: str
+        character(len=2) :: str
 
-        str = char(mod(val, 2**8)) // &
-            & char(mod(val, 2**16) / 2**8)
+        str = achar(mod(val, 2**8)) // &
+            & achar(mod(val, 2**16) / 2**8)
     end function to_bytes_i2
 
 
@@ -92,14 +95,17 @@ contains
 
     !> Save 1-dimensional array in npy format
     module subroutine save_npy_rsp_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(sp), intent(in) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_rsp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_rsp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -116,18 +122,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_rsp_1
     !> Save 2-dimensional array in npy format
     module subroutine save_npy_rsp_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(sp), intent(in) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_rsp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_rsp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -144,18 +155,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_rsp_2
     !> Save 3-dimensional array in npy format
     module subroutine save_npy_rsp_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(sp), intent(in) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_rsp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_rsp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -172,18 +188,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_rsp_3
     !> Save 4-dimensional array in npy format
     module subroutine save_npy_rsp_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(sp), intent(in) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_rsp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_rsp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -200,18 +221,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_rsp_4
     !> Save 1-dimensional array in npy format
     module subroutine save_npy_rdp_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(dp), intent(in) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_rdp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_rdp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -228,18 +254,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_rdp_1
     !> Save 2-dimensional array in npy format
     module subroutine save_npy_rdp_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(dp), intent(in) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_rdp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_rdp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -256,18 +287,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_rdp_2
     !> Save 3-dimensional array in npy format
     module subroutine save_npy_rdp_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(dp), intent(in) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_rdp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_rdp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -284,18 +320,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_rdp_3
     !> Save 4-dimensional array in npy format
     module subroutine save_npy_rdp_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         real(dp), intent(in) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_rdp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_rdp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -312,18 +353,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_rdp_4
     !> Save 1-dimensional array in npy format
     module subroutine save_npy_iint8_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int8), intent(in) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint8
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint8
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -340,18 +386,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint8_1
     !> Save 2-dimensional array in npy format
     module subroutine save_npy_iint8_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int8), intent(in) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint8
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint8
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -368,18 +419,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint8_2
     !> Save 3-dimensional array in npy format
     module subroutine save_npy_iint8_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int8), intent(in) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint8
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint8
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -396,18 +452,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint8_3
     !> Save 4-dimensional array in npy format
     module subroutine save_npy_iint8_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int8), intent(in) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint8
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint8
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -424,18 +485,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint8_4
     !> Save 1-dimensional array in npy format
     module subroutine save_npy_iint16_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int16), intent(in) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint16
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint16
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -452,18 +518,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint16_1
     !> Save 2-dimensional array in npy format
     module subroutine save_npy_iint16_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int16), intent(in) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint16
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint16
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -480,18 +551,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint16_2
     !> Save 3-dimensional array in npy format
     module subroutine save_npy_iint16_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int16), intent(in) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint16
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint16
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -508,18 +584,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint16_3
     !> Save 4-dimensional array in npy format
     module subroutine save_npy_iint16_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int16), intent(in) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint16
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint16
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -536,18 +617,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint16_4
     !> Save 1-dimensional array in npy format
     module subroutine save_npy_iint32_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int32), intent(in) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint32
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint32
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -564,18 +650,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint32_1
     !> Save 2-dimensional array in npy format
     module subroutine save_npy_iint32_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int32), intent(in) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint32
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint32
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -592,18 +683,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint32_2
     !> Save 3-dimensional array in npy format
     module subroutine save_npy_iint32_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int32), intent(in) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint32
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint32
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -620,18 +716,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint32_3
     !> Save 4-dimensional array in npy format
     module subroutine save_npy_iint32_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int32), intent(in) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint32
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint32
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -648,18 +749,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint32_4
     !> Save 1-dimensional array in npy format
     module subroutine save_npy_iint64_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int64), intent(in) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint64
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint64
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -676,18 +782,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint64_1
     !> Save 2-dimensional array in npy format
     module subroutine save_npy_iint64_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int64), intent(in) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint64
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint64
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -704,18 +815,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint64_2
     !> Save 3-dimensional array in npy format
     module subroutine save_npy_iint64_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int64), intent(in) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint64
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint64
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -732,18 +848,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint64_3
     !> Save 4-dimensional array in npy format
     module subroutine save_npy_iint64_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         integer(int64), intent(in) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_iint64
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_iint64
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -760,18 +881,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_iint64_4
     !> Save 1-dimensional array in npy format
     module subroutine save_npy_csp_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(sp), intent(in) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_csp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_csp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -788,18 +914,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_csp_1
     !> Save 2-dimensional array in npy format
     module subroutine save_npy_csp_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(sp), intent(in) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_csp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_csp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -816,18 +947,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_csp_2
     !> Save 3-dimensional array in npy format
     module subroutine save_npy_csp_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(sp), intent(in) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_csp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_csp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -844,18 +980,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_csp_3
     !> Save 4-dimensional array in npy format
     module subroutine save_npy_csp_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(sp), intent(in) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_csp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_csp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -872,18 +1013,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_csp_4
     !> Save 1-dimensional array in npy format
     module subroutine save_npy_cdp_1(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(dp), intent(in) :: array(:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_cdp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_cdp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -900,18 +1046,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_cdp_1
     !> Save 2-dimensional array in npy format
     module subroutine save_npy_cdp_2(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(dp), intent(in) :: array(:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_cdp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_cdp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -928,18 +1079,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_cdp_2
     !> Save 3-dimensional array in npy format
     module subroutine save_npy_cdp_3(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(dp), intent(in) :: array(:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_cdp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_cdp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -956,18 +1112,23 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_cdp_3
     !> Save 4-dimensional array in npy format
     module subroutine save_npy_cdp_4(filename, array, iostat, iomsg)
+        !> Name of the npy file to load from
         character(len=*), intent(in) :: filename
+        !> Array to be loaded from the npy file
         complex(dp), intent(in) :: array(:,:,:,:)
+        !> Error status of loading, zero on success
         integer, intent(out), optional :: iostat
-        character(len=*), parameter :: vtype = type_cdp
+        !> Associated error message in case of non-zero status code
         character(len=:), allocatable, intent(out), optional :: iomsg
 
+        character(len=*), parameter :: vtype = type_cdp
         integer :: io, stat
-        character(len=:), allocatable :: msg
 
         open(newunit=io, file=filename, form="unformatted", access="stream", iostat=stat)
         if (stat == 0) then
@@ -984,7 +1145,9 @@ contains
             call error_stop("Failed to write array to file '"//filename//"'")
         end if
 
-        if (present(iomsg).and.allocated(msg)) call move_alloc(msg, iomsg)
+        if (present(iomsg)) then
+            iomsg = "Failed to write array to file '"//filename//"'"
+        end if
     end subroutine save_npy_cdp_4
 
 end submodule stdlib_io_npy_save
