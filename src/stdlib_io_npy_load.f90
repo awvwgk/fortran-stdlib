@@ -31,7 +31,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -112,7 +112,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -194,7 +194,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -277,7 +277,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -361,7 +361,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -442,7 +442,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -524,7 +524,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -607,7 +607,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -691,7 +691,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -772,7 +772,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -854,7 +854,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -937,7 +937,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -1021,7 +1021,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -1102,7 +1102,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -1184,7 +1184,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -1267,7 +1267,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -1351,7 +1351,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -1432,7 +1432,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -1514,7 +1514,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -1597,7 +1597,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -1681,7 +1681,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -1762,7 +1762,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -1844,7 +1844,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -1927,7 +1927,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -2011,7 +2011,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -2092,7 +2092,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -2174,7 +2174,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -2257,7 +2257,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -2341,7 +2341,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -2422,7 +2422,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -2504,7 +2504,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -2587,7 +2587,7 @@ contains
             character(len=:), allocatable :: this_type
             integer, allocatable :: vshape(:)
 
-            call get_descriptor(io, this_type, vshape, stat, msg)
+            call get_descriptor(io, filename, this_type, vshape, stat, msg)
             if (stat /= 0) exit catch
 
             if (this_type /= vtype) then
@@ -2652,9 +2652,11 @@ contains
 
 
     !> Read the npy header from a binary file and retrieve the descriptor string.
-    subroutine get_descriptor(io, vtype, vshape, stat, msg)
+    subroutine get_descriptor(io, filename, vtype, vshape, stat, msg)
         !> Unformatted, stream accessed unit
         integer, intent(in) :: io
+        !> Filename for error reporting
+        character(len=*), intent(in) :: filename
         !> Type of data saved in npy file
         character(len=:), allocatable, intent(out) :: vtype
         !> Shape descriptor of the
@@ -2706,8 +2708,8 @@ contains
             return
         end if
 
-        call parse_descriptor(trim(dict(:len(dict)-1)), vtype, fortran_order, vshape, &
-            & stat, msg)
+        call parse_descriptor(trim(dict(:len(dict)-1)), filename, &
+            & vtype, fortran_order, vshape, stat, msg)
         if (stat /= 0) return
 
         if (.not.fortran_order) then
@@ -2760,9 +2762,11 @@ contains
 
     !> Parse the descriptor in the npy header. This routine implements a minimal
     !> non-recursive parser for serialized Python dictionaries.
-    subroutine parse_descriptor(input, vtype, fortran_order, vshape, stat, msg)
+    subroutine parse_descriptor(input, filename, vtype, fortran_order, vshape, stat, msg)
         !> Input string to parse as descriptor
         character(len=*), intent(in) :: input
+        !> Filename for error reporting
+        character(len=*), intent(in) :: filename
         !> Type of the data stored, retrieved from field `descr`
         character(len=:), allocatable, intent(out) :: vtype
         !> Whether the data is in left layout, retrieved from field `fortran_order`
@@ -2783,99 +2787,134 @@ contains
             integer :: first, last, kind
         end type token_type
 
-        integer :: pos, last
+        integer :: pos
         character(len=:), allocatable :: key
-        type(token_type) :: token
+        type(token_type) :: token, last
         logical :: has_descr, has_shape, has_fortran_order
 
         has_descr = .false.
         has_shape = .false.
         has_fortran_order = .false.
         pos = 0
-        call next_token(input, pos, token, [lbrace], stat)
+        call next_token(input, pos, token, [lbrace], stat, msg)
         if (stat /= 0) return
 
-        last = comma
+        last = token_type(pos, pos, comma)
         do while (pos < len(input))
             call get_token(input, pos, token)
             select case(token%kind)
             case(space)
                 continue
             case(comma)
-                if (token%kind == last) then
-                    stat = pos
+                if (token%kind == last%kind) then
+                    stat = 1
+                    msg = make_message(filename, input, token%first, token%last, &
+                        & "Comma cannot appear at this point")
                     return
                 end if
-                last = comma
+                last = token
             case(rbrace)
                 exit
             case(string)
-                key = input(token%first:token%last)
-                call next_token(input, pos, token, [colon], stat)
+                if (token%kind == last%kind) then
+                    stat = 1
+                    msg = make_message(filename, input, token%first, token%last, &
+                        & "String cannot appear at this point")
+                    return
+                end if
+                last = token
+
+                key = input(token%first+1:token%last-1)
+                call next_token(input, pos, token, [colon], stat, msg)
                 if (stat /= 0) return
+
+                if (key == "descr" .and. has_descr &
+                    & .or. key == "fortran_order" .and. has_fortran_order &
+                    & .or. key == "shape" .and. has_shape) then
+                    stat = 1
+                    msg = make_message(filename, input, last%first, last%last, &
+                        & "Duplicate entry for '"//key//"' found")
+                    return
+                end if
 
                 select case(key)
                 case("descr")
-                    if (has_descr) then
-                        stat = 1
-                        msg = "Duplicate descriptor"
-                    end if
-                    call next_token(input, pos, token, [string], stat)
+                    call next_token(input, pos, token, [string], stat, msg)
                     if (stat /= 0) return
 
-                    vtype = input(token%first:token%last)
+                    vtype = input(token%first+1:token%last-1)
                     has_descr = .true.
 
                 case("fortran_order")
-                    if (has_fortran_order) then
-                        stat = 1
-                        msg = "Duplicate fortran_order"
-                    end if
-                    call next_token(input, pos, token, [bool], stat)
+                    call next_token(input, pos, token, [bool], stat, msg)
                     if (stat /= 0) return
 
                     fortran_order = input(token%first:token%last) == "True"
                     has_fortran_order = .true.
 
                 case("shape")
-                    if (has_shape) then
-                        stat = 1
-                        msg = "Duplicate shape"
-                    end if
-                    call parse_tuple(input, pos, vshape, stat)
+                    call parse_tuple(input, pos, vshape, stat, msg)
 
                     has_shape = .true.
 
                 case default
-                    stat = pos
+                    stat = 1
+                    msg = make_message(filename, input, last%first, last%last, &
+                        & "Invalid entry '"//key//"' in dictionary encountered")
                     return
                 end select
-                last = string
             case default
-                stat = pos
+                stat = 1
+                msg = make_message(filename, input, token%first, token%last, &
+                    & "Invalid token encountered")
                 return
             end select
         end do
 
         if (.not.has_descr) then
             stat = 1
-            msg = "Missing descriptor"
+            msg = make_message(filename, input, 1, pos, &
+                & "Dictionary does not contain required entry 'descr'")
         end if
 
         if (.not.has_shape) then
             stat = 1
-            msg = "Missing shape"
+            msg = make_message(filename, input, 1, pos, &
+                & "Dictionary does not contain required entry 'fortran_order'")
         end if
 
         if (.not.has_fortran_order) then
             stat = 1
-            msg = "Missing fortran_order"
+            msg = make_message(filename, input, 1, pos, &
+                & "Dictionary does not contain required entry 'shape'")
         end if
 
     contains
 
+    function make_message(filename, input, first, last, message) result(str)
+        !> Filename for context
+        character(len=*), intent(in) :: filename
+        !> Input string to parse
+        character(len=*), intent(in) :: input
+        !> Offset in the input
+        integer, intent(in) :: first, last
+        !> Error message
+        character(len=*), intent(in) :: message
+        !> Final output message
+        character(len=:), allocatable :: str
+
+        character(len=*), parameter :: nl = new_line('a')
+
+        str = message // nl // &
+            & " --> " // filename // ":1:" // to_string(first) // "-" // to_string(last) // nl // &
+            & "  |" // nl // &
+            & "1 | " // input // nl // &
+            & "  |" // repeat(" ", first) // repeat("^", last - first + 1) // nl // &
+            & "  |"
+    end function make_message
+
     !> Parse a tuple of integers into an array of integers
-    subroutine parse_tuple(input, pos, tuple, stat)
+    subroutine parse_tuple(input, pos, tuple, stat, msg)
         !> Input string to parse
         character(len=*), intent(in) :: input
         !> Offset in the input, will be advanced after reading
@@ -2884,6 +2923,8 @@ contains
         integer, allocatable, intent(out) :: tuple(:)
         !> Status of operation
         integer, intent(out) :: stat
+        !> Associated error message in case of non-zero status
+        character(len=:), allocatable, intent(out) :: msg
 
         type(token_type) :: token
         integer :: last, itmp
@@ -2891,7 +2932,7 @@ contains
         allocate(tuple(0), stat=stat)
         if (stat /= 0) return
 
-        call next_token(input, pos, token, [lparen], stat)
+        call next_token(input, pos, token, [lparen], stat, msg)
         if (stat /= 0) return
 
         last = comma
@@ -2902,7 +2943,9 @@ contains
                 continue
             case(literal)
                 if (token%kind == last) then
-                    stat = pos
+                    stat = 1
+                    msg = make_message(filename, input, token%first, token%last, &
+                        & "Invalid token encountered")
                     return
                 end if
                 last = token%kind
@@ -2913,21 +2956,25 @@ contains
                 tuple = [tuple, itmp]
             case(comma)
                 if (token%kind == last) then
-                    stat = pos
+                    stat = 1
+                    msg = make_message(filename, input, token%first, token%last, &
+                        & "Invalid token encountered")
                     return
                 end if
                 last = token%kind
             case(rparen)
                 exit
             case default
-                stat = pos
+                stat = 1
+                msg = make_message(filename, input, token%first, token%last, &
+                    & "Invalid token encountered")
                 return
             end select
         end do
     end subroutine parse_tuple
 
     !> Get the next allowed token
-    subroutine next_token(input, pos, token, allowed_token, stat)
+    subroutine next_token(input, pos, token, allowed_token, stat, msg)
         !> Input string to parse
         character(len=*), intent(in) :: input
         !> Current offset in the input string
@@ -2938,6 +2985,8 @@ contains
         integer, intent(in) :: allowed_token(:)
         !> Status of operation
         integer, intent(out) :: stat
+        !> Associated error message in case of non-zero status
+        character(len=:), allocatable, intent(out) :: msg
 
         stat = pos
         do while (pos < len(input))
@@ -2948,7 +2997,9 @@ contains
                 stat = 0
                 exit
             else
-                stat = pos
+                stat = 1
+                msg = make_message(filename, input, token%first, token%last, &
+                    & "Invalid token encountered")
                 exit
             end if
         end do
@@ -2969,11 +3020,11 @@ contains
         select case(input(pos:pos))
         case("""", "'")
             quote = input(pos:pos)
-            pos = pos + 1
             token%first = pos
+            pos = pos + 1
             do while (pos <= len(input))
                 if (input(pos:pos) == quote) then
-                    token%last = pos - 1
+                    token%last = pos
                     exit
                 else
                     pos = pos + 1
