@@ -1,5 +1,5 @@
 module stdlib_stats_distribution_uniform
-    use stdlib_kinds, only : sp, dp, xdp, qp, int8, int16, int32, int64
+    use stdlib_kinds
     use stdlib_error, only : error_stop
     use stdlib_random, only : dist_rand
 
@@ -798,30 +798,28 @@ contains
     elemental function pdf_unif_rsp(x, loc, scale) result(res)
 
         real(sp), intent(in) :: x, loc, scale
-        real(sp) :: res
-        real(sp), parameter :: zero = 0.0_sp, one = 1.0_sp
+        real :: res
 
-        if(scale == zero) then
-            res = zero
+        if(scale == 0.0_sp) then
+            res = 0.0
         else if(x < loc .or. x > (loc + scale)) then
-            res = zero
+            res = 0.0
         else
-            res = one / scale
+            res = 1.0 / scale
         end if
     end function pdf_unif_rsp
 
     elemental function pdf_unif_rdp(x, loc, scale) result(res)
 
         real(dp), intent(in) :: x, loc, scale
-        real(dp) :: res
-        real(dp), parameter :: zero = 0.0_dp, one = 1.0_dp
+        real :: res
 
-        if(scale == zero) then
-            res = zero
+        if(scale == 0.0_dp) then
+            res = 0.0
         else if(x < loc .or. x > (loc + scale)) then
-            res = zero
+            res = 0.0
         else
-            res = one / scale
+            res = 1.0 / scale
         end if
     end function pdf_unif_rdp
 
@@ -831,34 +829,34 @@ contains
     elemental function pdf_unif_csp(x, loc, scale) result(res)
 
         complex(sp), intent(in) :: x, loc, scale
-        real(sp) :: res, tr, ti
-        real(sp), parameter :: zero = 0.0_sp, one = 1.0_sp
+        real :: res
+        real(sp) :: tr, ti
 
         tr = loc % re + scale % re; ti = loc % im + scale % im
-        if(scale == (zero, zero)) then
-            res = zero
+        if(scale == (0.0_sp,0.0_sp)) then
+            res = 0.0
         else if((x % re >= loc % re .and. x % re <= tr) .and.                  &
             (x % im >= loc % im .and. x % im <= ti)) then
-            res = one / (scale % re * scale % im)
+            res = 1.0 / (scale % re * scale % im)
         else
-            res = zero
+            res = 0.0
         end if
     end function pdf_unif_csp
 
     elemental function pdf_unif_cdp(x, loc, scale) result(res)
 
         complex(dp), intent(in) :: x, loc, scale
-        real(dp) :: res, tr, ti
-        real(dp), parameter :: zero = 0.0_dp, one = 1.0_dp
+        real :: res
+        real(dp) :: tr, ti
 
         tr = loc % re + scale % re; ti = loc % im + scale % im
-        if(scale == (zero, zero)) then
-            res = zero
+        if(scale == (0.0_dp,0.0_dp)) then
+            res = 0.0
         else if((x % re >= loc % re .and. x % re <= tr) .and.                  &
             (x % im >= loc % im .and. x % im <= ti)) then
-            res = one / (scale % re * scale % im)
+            res = 1.0 / (scale % re * scale % im)
         else
-            res = zero
+            res = 0.0
         end if
     end function pdf_unif_cdp
 
@@ -935,34 +933,32 @@ contains
     elemental function cdf_unif_rsp(x, loc, scale) result(res)
 
         real(sp), intent(in) :: x, loc, scale
-        real(sp) :: res
-        real(sp), parameter :: zero = 0.0_sp, one = 1.0_sp
+        real :: res
 
-        if(scale == zero) then
-            res = zero
+        if(scale == 0.0_sp) then
+            res = 0.0
         else if(x < loc) then
-            res = zero
+            res = 0.0
         else if(x >= loc .and. x <= (loc + scale)) then
             res = (x - loc) / scale
         else
-            res = one
+            res = 1.0
         end if
     end function cdf_unif_rsp
 
     elemental function cdf_unif_rdp(x, loc, scale) result(res)
 
         real(dp), intent(in) :: x, loc, scale
-        real(dp) :: res
-        real(dp), parameter :: zero = 0.0_dp, one = 1.0_dp
+        real :: res
 
-        if(scale == zero) then
-            res = zero
+        if(scale == 0.0_dp) then
+            res = 0.0
         else if(x < loc) then
-            res = zero
+            res = 0.0
         else if(x >= loc .and. x <= (loc + scale)) then
             res = (x - loc) / scale
         else
-            res = one
+            res = 1.0
         end if
     end function cdf_unif_rdp
 
@@ -972,12 +968,11 @@ contains
     elemental function cdf_unif_csp(x, loc, scale) result(res)
 
         complex(sp), intent(in) :: x, loc, scale
-        real(sp) :: res
-        real(sp), parameter :: zero = 0.0_sp, one = 1.0_sp
+        real :: res
         logical :: r1, r2, i1, i2
 
-        if(scale == (zero, zero)) then
-            res = zero
+        if(scale == (0.0_sp,0.0_sp)) then
+            res = 0.0
             return
         end if
         r1 = x % re < loc % re
@@ -985,29 +980,28 @@ contains
         i1 = x % im < loc % im
         i2 = x % im > (loc % im + scale % im)
         if(r1 .or. i1) then
-            res = zero
+            res = 0.0
         else if((.not. r1) .and. (.not. r2) .and. i2) then
             res = (x % re - loc % re) / scale % re
         else if((.not. i1) .and. (.not. i2) .and. r2) then
             res = (x % im - loc % im) / scale % im
         else if((.not. r1) .and. (.not. r2) .and. (.not. i1) .and. (.not. i2)) &
             then
-            res = ((x % re - loc % re) / scale % re) * ((x % im - loc % im) /  &
-                  scale % im)
+            res = (x % re - loc % re) * (x % im - loc % im) /                  &
+                   (scale % re * scale % im)
         else if(r2 .and. i2)then
-             res = one
+             res = 1.0
         end if
     end function cdf_unif_csp
 
     elemental function cdf_unif_cdp(x, loc, scale) result(res)
 
         complex(dp), intent(in) :: x, loc, scale
-        real(dp) :: res
-        real(dp), parameter :: zero = 0.0_dp, one = 1.0_dp
+        real :: res
         logical :: r1, r2, i1, i2
 
-        if(scale == (zero, zero)) then
-            res = zero
+        if(scale == (0.0_dp,0.0_dp)) then
+            res = 0.0
             return
         end if
         r1 = x % re < loc % re
@@ -1015,17 +1009,17 @@ contains
         i1 = x % im < loc % im
         i2 = x % im > (loc % im + scale % im)
         if(r1 .or. i1) then
-            res = zero
+            res = 0.0
         else if((.not. r1) .and. (.not. r2) .and. i2) then
             res = (x % re - loc % re) / scale % re
         else if((.not. i1) .and. (.not. i2) .and. r2) then
             res = (x % im - loc % im) / scale % im
         else if((.not. r1) .and. (.not. r2) .and. (.not. i1) .and. (.not. i2)) &
             then
-            res = ((x % re - loc % re) / scale % re) * ((x % im - loc % im) /  &
-                  scale % im)
+            res = (x % re - loc % re) * (x % im - loc % im) /                  &
+                   (scale % re * scale % im)
         else if(r2 .and. i2)then
-             res = one
+             res = 1.0
         end if
     end function cdf_unif_cdp
 
