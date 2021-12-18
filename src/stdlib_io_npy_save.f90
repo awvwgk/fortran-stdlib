@@ -123,9 +123,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_rsp_1
     !> Save 2-dimensional array in npy format
@@ -158,9 +156,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_rsp_2
     !> Save 3-dimensional array in npy format
@@ -193,9 +189,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_rsp_3
     !> Save 4-dimensional array in npy format
@@ -228,9 +222,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_rsp_4
     !> Save 1-dimensional array in npy format
@@ -263,9 +255,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_rdp_1
     !> Save 2-dimensional array in npy format
@@ -298,9 +288,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_rdp_2
     !> Save 3-dimensional array in npy format
@@ -333,9 +321,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_rdp_3
     !> Save 4-dimensional array in npy format
@@ -368,9 +354,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_rdp_4
     !> Save 1-dimensional array in npy format
@@ -403,9 +387,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint8_1
     !> Save 2-dimensional array in npy format
@@ -438,9 +420,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint8_2
     !> Save 3-dimensional array in npy format
@@ -473,9 +453,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint8_3
     !> Save 4-dimensional array in npy format
@@ -508,9 +486,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint8_4
     !> Save 1-dimensional array in npy format
@@ -543,9 +519,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint16_1
     !> Save 2-dimensional array in npy format
@@ -578,9 +552,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint16_2
     !> Save 3-dimensional array in npy format
@@ -613,9 +585,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint16_3
     !> Save 4-dimensional array in npy format
@@ -648,9 +618,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint16_4
     !> Save 1-dimensional array in npy format
@@ -683,9 +651,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint32_1
     !> Save 2-dimensional array in npy format
@@ -718,9 +684,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint32_2
     !> Save 3-dimensional array in npy format
@@ -753,9 +717,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint32_3
     !> Save 4-dimensional array in npy format
@@ -788,9 +750,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint32_4
     !> Save 1-dimensional array in npy format
@@ -823,9 +783,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint64_1
     !> Save 2-dimensional array in npy format
@@ -858,9 +816,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint64_2
     !> Save 3-dimensional array in npy format
@@ -893,9 +849,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint64_3
     !> Save 4-dimensional array in npy format
@@ -928,9 +882,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_iint64_4
     !> Save 1-dimensional array in npy format
@@ -963,9 +915,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_csp_1
     !> Save 2-dimensional array in npy format
@@ -998,9 +948,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_csp_2
     !> Save 3-dimensional array in npy format
@@ -1033,9 +981,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_csp_3
     !> Save 4-dimensional array in npy format
@@ -1068,9 +1014,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_csp_4
     !> Save 1-dimensional array in npy format
@@ -1103,9 +1047,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_cdp_1
     !> Save 2-dimensional array in npy format
@@ -1138,9 +1080,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_cdp_2
     !> Save 3-dimensional array in npy format
@@ -1173,9 +1113,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_cdp_3
     !> Save 4-dimensional array in npy format
@@ -1208,9 +1146,7 @@ contains
         end if
 
         if (present(iomsg)) then
-            if (stat /= 0) then
-                iomsg = "Failed to write array to file '"//filename//"'"
-            end if
+            iomsg = "Failed to write array to file '"//filename//"'"
         end if
     end subroutine save_npy_cdp_4
 

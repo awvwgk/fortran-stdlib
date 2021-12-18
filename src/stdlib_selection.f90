@@ -2,11 +2,9 @@
 ! The index arrays are of all INT_KINDS_TYPES
 
 module stdlib_selection
-!! Quickly find the k-th smallest value of an array, or the index of the k-th smallest value.
-!! ([Specification](../page/specs/stdlib_selection.html))
 !
 ! This code was modified from the "Coretran" implementation "quickSelect" by
-! Leon Foks, https://github.com/leonfoks/coretran/tree/HEAD/src/sorting
+! Leon Foks, https://github.com/leonfoks/coretran/tree/master/src/sorting
 !
 ! Leon Foks gave permission to release this code under stdlib's MIT license.
 ! (https://github.com/fortran-lang/stdlib/pull/500#commitcomment-57418593)
@@ -118,10 +116,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -221,10 +218,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -324,10 +320,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -427,10 +422,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -530,10 +524,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -633,10 +626,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -736,10 +728,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -839,10 +830,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -942,10 +932,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -1045,10 +1034,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -1148,10 +1136,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -1251,10 +1238,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -1354,10 +1340,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -1457,10 +1442,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -1560,10 +1544,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -1663,10 +1646,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -1766,10 +1748,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -1869,10 +1850,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -1972,10 +1952,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -2075,10 +2054,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -2178,10 +2156,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -2281,10 +2258,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -2384,10 +2360,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -2487,10 +2462,9 @@ contains
           r = size(a, kind=ip)
           if(present(right)) r = right
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "select must have  1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -2599,10 +2573,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -2711,10 +2684,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -2823,10 +2795,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -2935,10 +2906,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -3047,10 +3017,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -3159,10 +3128,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -3271,10 +3239,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -3383,10 +3350,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -3495,10 +3461,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -3607,10 +3572,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -3719,10 +3683,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -3831,10 +3794,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -3943,10 +3905,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -4055,10 +4016,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -4167,10 +4127,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -4279,10 +4238,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -4391,10 +4349,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -4503,10 +4460,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -4615,10 +4571,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -4727,10 +4682,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -4839,10 +4793,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -4951,10 +4904,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -5063,10 +5015,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
@@ -5175,10 +5126,9 @@ contains
               error stop "arg_select must have size(a) == size(indx)"
           end if
 
-          if(l > r .or. l < 1_ip .or. r > size(a, kind=ip) &
-              .or. k < l .or. k > r                        & !i.e. if k is not in the interval [l; r]  
-              ) then
-              error stop "arg_select must have 1 <= left <= k <= right <= size(a)";
+          if(k < 1_ip .or. k > size(a, kind=ip) .or. l > r .or. l < 1_ip .or. &
+              r > size(a, kind=ip)) then
+              error stop "arg_select must have 1 <= k <= size(a), and 1 <= left <= right <= size(a)";
           end if
 
           searchk: do
