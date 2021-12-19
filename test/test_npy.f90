@@ -34,8 +34,7 @@ contains
             new_unittest("duplicate-descr", test_duplicate_descr, should_fail=.true.), &
             new_unittest("missing-descr", test_missing_descr, should_fail=.true.), &
             new_unittest("missing-fortran_order", test_missing_fortran_order, should_fail=.true.), &
-            new_unittest("missing-shape", test_missing_shape, should_fail=.true.), &
-            new_unittest("iomsg-deallocated", test_iomsg_deallocated) &
+            new_unittest("missing-shape", test_missing_shape, should_fail=.true.) &
             ]
     end subroutine collect_npy
 
@@ -619,27 +618,6 @@ contains
 
         call check(error, stat, msg)
     end subroutine test_missing_shape
-
-    subroutine test_iomsg_deallocated(error)
-        !> Error handling
-        type(error_type), allocatable, intent(out) :: error
-
-        integer :: stat
-        character(len=:), allocatable :: msg
-
-        character(len=*), parameter :: filename = ".test-iomsg-deallocated.npy"
-        real(sp), allocatable :: input(:, :), output(:, :)
-
-        msg = "This message should be deallocated."
-
-        allocate(input(12, 5))
-        call random_number(input)
-        call save_npy(filename, input, stat, msg)
-        call delete_file(filename)
-
-        call check(error,.not. allocated(msg), "Message wrongly allocated.")
-
-    end subroutine
 
     subroutine delete_file(filename)
         character(len=*), intent(in) :: filename
