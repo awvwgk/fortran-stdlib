@@ -20,7 +20,6 @@ module stdlib_terminal_colors
 
     !> Container for terminal escape code
     type :: ansi_color
-        private
         !> Style descriptor
         integer(i1) :: style = -1_i1
         !> Background color descriptor
