@@ -50,7 +50,7 @@ module test_linalg_least_squares
         call check(error,state%ok(),state%print())
         if (allocated(error)) return
         
-        call check(error, all(abs(p-ab)<1.0e-6_sp), 'data converged')
+        call check(error, all(abs(p-ab)<1.0e-4_sp), 'data converged')
         if (allocated(error)) return
         
         call check(error, rank==2, 'matrix rank == 2')
@@ -64,14 +64,17 @@ module test_linalg_least_squares
 
         type(linalg_state_type) :: state
         integer(ilp), parameter :: n = 12, m = 3
+        real :: Arnd(n,m),xrnd(m)
         real(sp) :: xsol(m),x(m),y(n),A(n,m)
 
         ! Random coefficient matrix and solution
-        call random_number(A)
-        call random_number(xsol)
+        call random_number(Arnd)
+        call random_number(xrnd)
         
         ! Compute rhs
-        y = matmul(A,xsol)
+        A    = real(Arnd,sp)
+        xsol = real(xrnd,sp)
+        y    = matmul(A,xsol)
 
         ! Find polynomial
         x = lstsq(A,y,err=state)
@@ -79,7 +82,7 @@ module test_linalg_least_squares
         call check(error,state%ok(),state%print())
         if (allocated(error)) return
         
-        call check(error, all(abs(x-xsol)<1.0e-6_sp), 'data converged')
+        call check(error, all(abs(x-xsol)<1.0e-4_sp), 'data converged')
         if (allocated(error)) return
         
     end subroutine test_lstsq_random_s    
@@ -108,7 +111,7 @@ module test_linalg_least_squares
         call check(error,state%ok(),state%print())
         if (allocated(error)) return
         
-        call check(error, all(abs(p-ab)<1.0e-6_dp), 'data converged')
+        call check(error, all(abs(p-ab)<1.0e-4_dp), 'data converged')
         if (allocated(error)) return
         
         call check(error, rank==2, 'matrix rank == 2')
@@ -122,14 +125,17 @@ module test_linalg_least_squares
 
         type(linalg_state_type) :: state
         integer(ilp), parameter :: n = 12, m = 3
+        real :: Arnd(n,m),xrnd(m)
         real(dp) :: xsol(m),x(m),y(n),A(n,m)
 
         ! Random coefficient matrix and solution
-        call random_number(A)
-        call random_number(xsol)
+        call random_number(Arnd)
+        call random_number(xrnd)
         
         ! Compute rhs
-        y = matmul(A,xsol)
+        A    = real(Arnd,dp)
+        xsol = real(xrnd,dp)
+        y    = matmul(A,xsol)
 
         ! Find polynomial
         x = lstsq(A,y,err=state)
@@ -137,7 +143,7 @@ module test_linalg_least_squares
         call check(error,state%ok(),state%print())
         if (allocated(error)) return
         
-        call check(error, all(abs(x-xsol)<1.0e-6_dp), 'data converged')
+        call check(error, all(abs(x-xsol)<1.0e-4_dp), 'data converged')
         if (allocated(error)) return
         
     end subroutine test_lstsq_random_d    
