@@ -4,7 +4,7 @@ submodule (stdlib_linalg) stdlib_linalg_cholesky
      use stdlib_linalg_lapack, only: potrf
      use stdlib_linalg_state, only: linalg_state_type, linalg_error_handling, LINALG_ERROR, &
          LINALG_INTERNAL_ERROR, LINALG_VALUE_ERROR
-     implicit none(type,external)
+     implicit none
 
      
      character(*), parameter :: this = 'cholesky'
@@ -51,7 +51,7 @@ submodule (stdlib_linalg) stdlib_linalg_cholesky
 
          !> Local variables
          type(linalg_state_type) :: err0
-         integer(ilp) :: lda,n,info,i,j
+         integer(ilp) :: lda,n,info,j
          logical(lk) :: lower_,other_zeroed_
          character :: triangle
          real(sp), parameter :: zero = 0.0_sp
@@ -176,7 +176,7 @@ submodule (stdlib_linalg) stdlib_linalg_cholesky
 
          !> Local variables
          type(linalg_state_type) :: err0
-         integer(ilp) :: lda,n,info,i,j
+         integer(ilp) :: lda,n,info,j
          logical(lk) :: lower_,other_zeroed_
          character :: triangle
          real(dp), parameter :: zero = 0.0_dp
@@ -301,7 +301,7 @@ submodule (stdlib_linalg) stdlib_linalg_cholesky
 
          !> Local variables
          type(linalg_state_type) :: err0
-         integer(ilp) :: lda,n,info,i,j
+         integer(ilp) :: lda,n,info,j
          logical(lk) :: lower_,other_zeroed_
          character :: triangle
          complex(sp), parameter :: zero = 0.0_sp
@@ -426,7 +426,7 @@ submodule (stdlib_linalg) stdlib_linalg_cholesky
 
          !> Local variables
          type(linalg_state_type) :: err0
-         integer(ilp) :: lda,n,info,i,j
+         integer(ilp) :: lda,n,info,j
          logical(lk) :: lower_,other_zeroed_
          character :: triangle
          complex(dp), parameter :: zero = 0.0_dp
